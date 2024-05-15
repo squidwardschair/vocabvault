@@ -1,0 +1,168 @@
+.fullPage {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.progressArea {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .progressArea {
+    display: flex;
+    width: 15%;
+    height: 40%;
+    padding: 20px;
+    background-color: #496989;
+  }
+}
+
+.writingArea {
+  display: flex;
+  height: 40%;
+  width: 50%;
+  background-color: #496989;
+  padding: 20px;
+  flex-flow: column;
+}
+
+.termHeader {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.termText {
+  font-family: Arial;
+  font-size: 35px;
+  color: white;
+}
+
+.answerArea {
+  margin: auto;
+  display: flex;
+  flex-flow: row;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+}
+
+.answerInput {
+  width: 80%;
+  height: 50px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 20px;
+  border: none;
+  box-shadow: 0 3px 0 #e2f4c5;
+  background: transparent;
+  color: white;
+  transition: 0.1s;
+}
+
+.answerInput:focus {
+  outline: none;
+  box-shadow: 0 6px 0 #a8cd9f;
+}
+.answerInput::placeholder {
+  color: white;
+}
+
+.answerButtonBox {
+  margin-top: 6px;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+.answerButton {
+  width: 75%;
+  background: #58a399;
+  border-radius: 5px;
+  height: 50px;
+  border: none;
+}
+
+.buttonText {
+  font-size: 20px;
+  color: white;
+}
+.answerButton:hover {
+  background-color: #a8cd9f;
+  cursor: pointer;
+}
+
+.skip {
+  margin: auto;
+  margin-right: 3%;
+  font-size: 17px;
+  color: #a8cd9f;
+}
+
+.skip:hover {
+  color: #e2f4c5;
+  cursor: pointer;
+}
+
+.progressHolder {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+}
+
+.progressBarArea {
+  height: 40px;
+  width: 100%;
+}
+
+.progressBar[value] {
+  width: 100%;
+  height: 50%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.remBar[value]::-webkit-progress-bar {
+    background-color: #A8CD9F;
+    border-radius: 5px;
+}
+.remBar[value]::-webkit-progress-value {
+    background-color: #58A399;
+    border-radius: 5px;
+}
+.corBar[value]::-webkit-progress-bar {
+    background-color: lightgreen;
+    border-radius: 5px;
+}
+.corBar[value]::-webkit-progress-value {
+    background-color: green;
+    border-radius: 5px;
+}
+.incBar[value]::-webkit-progress-bar {
+    background-color: coral;
+    border-radius: 5px;
+}
+
+.incBar[value]::-webkit-progress-value {
+    background-color: red;
+    border-radius: 5px;
+}
+
+.barText {
+    color: white;
+    font-size: 17px;
+}
+
+.barTextRight {
+    float: right;
+}
