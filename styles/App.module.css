@@ -1,4 +1,4 @@
-@import 'material-symbols';
+@import "material-symbols";
 
 .App {
   text-align: center;
@@ -39,7 +39,7 @@
   }
 }
 
-.studyArea{
+.studyArea {
   display: flex;
   width: 100%;
   background-color: grey;
@@ -90,7 +90,6 @@
   .activeCard {
     height: 20vh;
     width: 95vw;
-
   }
 }
 
@@ -114,4 +113,3 @@
 .flashcardButton:hover {
   background-color: grey;
 }
-

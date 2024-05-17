@@ -66,6 +66,26 @@
   transition: 0.1s;
 }
 
+.answerBox {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 5px;
+  width: 80%;
+  height: 40px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 20px;
+  color: white;
+}
+
+.corAnswer {
+  box-shadow: 0 6px 0 lightgreen;
+}
+
+.incAnswer {
+  box-shadow: 0 6px 0 coral;
+}
 .answerInput:focus {
   outline: none;
   box-shadow: 0 6px 0 #a8cd9f;
@@ -86,6 +106,44 @@
   border-radius: 5px;
   height: 50px;
   border: none;
+}
+
+.continueButtonBox {
+  margin-top: 10px;
+  width: 75%;
+  margin-left: 10px;
+  display: flex;
+  justify-content: start;
+}
+
+.continueButton {
+  width: 25%;
+  background: #58a399;
+  border-radius: 5px;
+  height: 35px;
+  border: none;
+}
+
+.overrideButton {
+  margin-left: 10px;
+  background: transparent;
+  border: none;
+}
+
+.overrideButton > span {
+  text-decoration: underline;
+}
+
+.overrideButton:hover {
+  cursor: pointer;
+}
+
+.overrideButton:hover > span {
+  color: #a8cd9f;
+}
+.continueButton:hover {
+  background-color: #a8cd9f;
+  cursor: pointer;
 }
 
 .buttonText {
@@ -133,36 +191,41 @@
 }
 
 .remBar[value]::-webkit-progress-bar {
-    background-color: #A8CD9F;
-    border-radius: 5px;
+  background-color: #a8cd9f;
+  border-radius: 5px;
 }
 .remBar[value]::-webkit-progress-value {
-    background-color: #58A399;
-    border-radius: 5px;
+  background-color: #58a399;
+  border-radius: 5px;
 }
 .corBar[value]::-webkit-progress-bar {
-    background-color: lightgreen;
-    border-radius: 5px;
+  background-color: lightgreen;
+  border-radius: 5px;
 }
 .corBar[value]::-webkit-progress-value {
-    background-color: green;
-    border-radius: 5px;
+  background-color: green;
+  border-radius: 5px;
 }
 .incBar[value]::-webkit-progress-bar {
-    background-color: coral;
-    border-radius: 5px;
+  background-color: coral;
+  border-radius: 5px;
 }
 
 .incBar[value]::-webkit-progress-value {
-    background-color: red;
-    border-radius: 5px;
+  background-color: red;
+  border-radius: 5px;
 }
 
 .barText {
-    color: white;
-    font-size: 17px;
+  color: white;
+  font-size: 17px;
 }
 
 .barTextRight {
-    float: right;
+  float: right;
+}
+
+.answerDetail {
+  margin-left: 10px;
+  color: white;
 }
