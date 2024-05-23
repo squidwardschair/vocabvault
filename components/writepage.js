@@ -1,25 +1,33 @@
 import styles from "../styles/write.module.css";
-import ProgressArea from "./progressarea.js";
 
-export default function WritePage({ cardData }) {
+export default function WritePage({
+  term,
+  onAnswer,
+  onSkip,
+  onChange,
+  text,
+  handleEnter,
+}) {
   return (
-    <div className={styles.fullPage}>
-      <ProgressArea progressData={[]} />
-      <div className={styles.writingArea}>
-        <div className={styles.termHeader}>
-          <span className={styles.termText}>Blahblahblah</span>
-          <span className={styles.skip}>Skip</span>
-        </div>
-        <div className={styles.answerArea}>
-          <input
-            className={styles.answerInput}
-            placeholder="Type your answer here..."
-          />
-          <div className={styles.answerButtonBox}>
-            <button className={styles.answerButton}>
-              <span className={styles.buttonText}>Answer</span>
-            </button>
-          </div>
+    <div className={styles.writingArea}>
+      <div className={styles.termHeader}>
+        <span className={styles.termText}>{term}</span>
+        <span className={styles.skip} onClick={onSkip}>
+          Skip
+        </span>
+      </div>
+      <div className={styles.answerArea}>
+        <textarea
+          className={styles.answerInput}
+          placeholder="Type your answer here..."
+          onChange={onChange}
+          value={text}
+          onKeyDown={handleEnter}
+        />
+        <div className={styles.answerButtonBox}>
+          <button className={styles.answerButton} onClick={onAnswer}>
+            <span className={styles.buttonText}>Answer</span>
+          </button>
         </div>
       </div>
     </div>

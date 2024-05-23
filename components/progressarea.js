@@ -1,35 +1,42 @@
 import styles from "../styles/write.module.css";
 
-export default function ProgressArea({ progressData }) {
+export default function ProgressArea({ total, remaining, correct, incorrect }) {
+  console.log(incorrect);
   return (
     <div className={styles.progressArea}>
       <div className={styles.progressHolder}>
         <div className={styles.progressBarArea}>
           <progress
             className={`${styles.progressBar} ${styles.remBar}`}
-            value={30}
-            max={50}
+            value={remaining}
+            max={total}
           ></progress>
           <span className={styles.barText}>Remaining</span>
-          <span className={`${styles.barText} ${styles.barTextRight}`}>50</span>
+          <span className={`${styles.barText} ${styles.barTextRight}`}>
+            {remaining}
+          </span>
         </div>
         <div className={styles.progressBarArea}>
           <progress
             className={`${styles.progressBar} ${styles.corBar}`}
-            value={5}
-            max={50}
+            value={correct}
+            max={total}
           ></progress>
           <span className={styles.barText}>Correct</span>
-          <span className={`${styles.barText} ${styles.barTextRight}`}>0</span>
+          <span className={`${styles.barText} ${styles.barTextRight}`}>
+            {correct}
+          </span>
         </div>
         <div className={styles.progressBarArea}>
           <progress
             className={`${styles.progressBar} ${styles.incBar}`}
-            value={8}
-            max={50}
+            value={incorrect}
+            max={total}
           ></progress>
           <span className={styles.barText}>Incorrect</span>
-          <span className={`${styles.barText} ${styles.barTextRight}`}>0</span>
+          <span className={`${styles.barText} ${styles.barTextRight}`}>
+            {incorrect}
+          </span>
         </div>
       </div>
     </div>

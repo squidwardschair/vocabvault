@@ -9,11 +9,15 @@
   display: none;
 }
 
+.writeHolder {
+  display: flex;
+  min-height: 40%;
+  width: 80%;
+}
 @media only screen and (min-width: 768px) {
   .progressArea {
     display: flex;
-    width: 15%;
-    height: 40%;
+    width: 20%;
     padding: 20px;
     background-color: #496989;
   }
@@ -21,8 +25,8 @@
 
 .writingArea {
   display: flex;
-  height: 40%;
-  width: 50%;
+  min-height: 100%;
+  width: 80%;
   background-color: #496989;
   padding: 20px;
   flex-flow: column;
@@ -37,7 +41,7 @@
 }
 
 .termText {
-  font-family: Arial;
+  padding-right: 5px;
   font-size: 35px;
   color: white;
 }
@@ -50,11 +54,15 @@
   margin-right: 10px;
   margin-bottom: 10px;
   justify-content: space-between;
+  align-items: flex-end;
 }
 
 .answerInput {
+  resize: none;
+  font-family: inherit;
+  padding: 0;
   width: 80%;
-  height: 50px;
+  height: 35px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -68,7 +76,6 @@
 
 .answerBox {
   display: flex;
-  align-items: flex-end;
   padding-bottom: 5px;
   width: 80%;
   height: 40px;
@@ -95,10 +102,11 @@
 }
 
 .answerButtonBox {
-  margin-top: 6px;
+  padding-top: 6px;
   width: 20%;
   display: flex;
   justify-content: center;
+  align-items: flex-end;
 }
 .answerButton {
   width: 75%;

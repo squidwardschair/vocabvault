@@ -1,4 +1,4 @@
-import WritePage from "../components/writepage.js";
+import Write from "../components/write.js";
 
 const cards = [
   {
@@ -9,8 +9,8 @@ const cards = [
   { question: "who is bob", answer: "blah!" },
 ];
 
-function Write() {
-  return <WritePage cardData={cards} />;
+function WriteMode() {
+  return <Write cardData={cards} />;
 }
 
-export default Write;
+export default WriteMode;
