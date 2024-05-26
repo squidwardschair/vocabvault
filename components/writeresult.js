@@ -17,13 +17,13 @@ export default function WriteResult({
           {useranswer}
         </span>
       </div>
-      <span class={styles.answerDetail}>Your answer</span>
+      <span className={styles.answerDetail}>Your answer</span>
       <div className={styles.answerArea}>
         <span className={`${styles.corAnswer} ${styles.answerBox}`}>
           {answer}
         </span>
       </div>
-      <span class={styles.answerDetail}>Correct answer</span>
+      <span className={styles.answerDetail}>Correct answer</span>
       <div className={styles.continueButtonBox}>
         <button className={styles.continueButton} onClick={onContinue}>
           <span className={styles.buttonText}>Continue</span>

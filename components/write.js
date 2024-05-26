@@ -1,7 +1,7 @@
 import WritePage from "./writepage.js";
 import WriteResult from "./writeresult.js";
 import ProgressArea from "./progressarea.js";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import styles from "../styles/write.module.css";
 
 function DisplayWrite({
@@ -51,11 +51,12 @@ export default function Write({ cardData }) {
   const [numCorrect, setNumCorrect] = useState(0);
 
   function changeInput(e) {
-    setInput(e.target.value);
+    setInput(e.currentTarget.innerHTML);
   }
 
   function handleEnter(e) {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
       onAnswer();
     }
   }
@@ -64,7 +65,7 @@ export default function Write({ cardData }) {
   };
 
   const onAnswer = () => {
-    if (input == cardData[currentCard].answer) {
+    if (input.toLowerCase() == cardData[currentCard].answer.toLowerCase()) {
       checkCorrect(true);
       setNumCorrect((a) => a + 1);
       setRemaining((a) => a - 1);
@@ -104,9 +105,6 @@ export default function Write({ cardData }) {
       changeCard(nextIndex);
     }
   };
-  console.log(remaining);
-  console.log(numCorrect);
-  console.log(cardData.length - remaining - numCorrect);
 
   return (
     <div className={styles.fullPage}>

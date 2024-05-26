@@ -18,8 +18,10 @@
   .progressArea {
     display: flex;
     width: 20%;
+    min-height: 100%;
     padding: 20px;
     background-color: #496989;
+    align-items: flex-start;
   }
 }
 
@@ -57,12 +59,13 @@
   align-items: flex-end;
 }
 
-.answerInput {
+.answerInput[contenteditable="true"] {
   resize: none;
   font-family: inherit;
   padding: 0;
   width: 80%;
-  height: 35px;
+  min-height: 35px;
+  height: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -75,6 +78,7 @@
 }
 
 .answerBox {
+  align-items: flex-end;
   display: flex;
   padding-bottom: 5px;
   width: 80%;
@@ -121,7 +125,7 @@
   width: 75%;
   margin-left: 10px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .continueButton {
@@ -176,17 +180,22 @@
 }
 
 .progressHolder {
+  margin-top: auto;
+  margin-bottom: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 5px;
+  height: 100%;
   width: 100%;
   display: flex;
   flex-flow: column;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .progressBarArea {
+  margin-top: 10px;
+  margin-bottom: 10px;
   height: 40px;
   width: 100%;
 }

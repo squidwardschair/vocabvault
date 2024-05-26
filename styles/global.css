@@ -20,3 +20,9 @@ div#__next,
 div#__next > div {
   height: 100%;
 }
+
+[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  pointer-events: none;
+  display: block; /* For Firefox */
+}

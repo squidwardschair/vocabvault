@@ -17,13 +17,14 @@ export default function WritePage({
         </span>
       </div>
       <div className={styles.answerArea}>
-        <textarea
+        <div
           className={styles.answerInput}
-          placeholder="Type your answer here..."
-          onChange={onChange}
+          onInput={onChange}
           value={text}
           onKeyDown={handleEnter}
-        />
+          contentEditable={true}
+          placeholder="Type your answer here..."
+        ></div>
         <div className={styles.answerButtonBox}>
           <button className={styles.answerButton} onClick={onAnswer}>
             <span className={styles.buttonText}>Answer</span>
