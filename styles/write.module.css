@@ -78,11 +78,13 @@
 }
 
 .answerBox {
+  white-space: pre;
   align-items: flex-end;
   display: flex;
   padding-bottom: 5px;
   width: 80%;
-  height: 40px;
+  min-height: 40px;
+  height: auto;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -97,6 +99,7 @@
 .incAnswer {
   box-shadow: 0 6px 0 coral;
 }
+
 .answerInput:focus {
   outline: none;
   box-shadow: 0 6px 0 #a8cd9f;
@@ -112,14 +115,24 @@
   justify-content: center;
   align-items: flex-end;
 }
+
 .answerButton {
   width: 75%;
   background: #58a399;
   border-radius: 5px;
   height: 50px;
   border: none;
+  
 }
 
+.animation {
+  animation: answerAnimation;
+  animation-duration: 0.5s;
+}
+@keyframes answerAnimation {
+  from {background: #58a399;}
+  to {background: green;}
+}
 .continueButtonBox {
   margin-top: 10px;
   width: 75%;
@@ -205,6 +218,10 @@
   height: 50%;
   -webkit-appearance: none;
   appearance: none;
+}
+
+.progressBar::-webkit-progress-value {
+  transition: width 0.5s;
 }
 
 .remBar[value]::-webkit-progress-bar {

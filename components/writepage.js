@@ -7,6 +7,9 @@ export default function WritePage({
   onChange,
   text,
   handleEnter,
+  inputRef,
+  answerButtonRef,
+  answerButtonTextRef,
 }) {
   return (
     <div className={styles.writingArea}>
@@ -24,10 +27,11 @@ export default function WritePage({
           onKeyDown={handleEnter}
           contentEditable={true}
           placeholder="Type your answer here..."
+          ref={inputRef}
         ></div>
         <div className={styles.answerButtonBox}>
-          <button className={styles.answerButton} onClick={onAnswer}>
-            <span className={styles.buttonText}>Answer</span>
+          <button className={styles.answerButton} onClick={onAnswer} ref={answerButtonRef}>
+            <span className={styles.buttonText} ref={answerButtonTextRef}>Answer</span>
           </button>
         </div>
       </div>

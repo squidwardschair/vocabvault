@@ -1,4 +1,5 @@
 import styles from "../styles/write.module.css";
+import { useEffect } from "react";
 
 export default function WriteResult({
   term,
@@ -6,7 +7,17 @@ export default function WriteResult({
   useranswer,
   onOverride,
   onContinue,
+  resultEnter,
 }) {
+  useEffect(() => {
+    console.log("blah");
+    document.addEventListener("keydown", resultEnter);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", resultEnter);
+    };
+  }, [resultEnter]);
+  console.log("yeah!!!!!!");
   return (
     <div className={styles.writingArea}>
       <div className={styles.termHeader}>

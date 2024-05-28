@@ -1,5 +1,6 @@
 import styles from "../styles/write.module.css";
 
+
 export default function ProgressArea({ total, remaining, correct, incorrect }) {
   console.log(incorrect);
   return (

@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.1",
     "material-symbols": "^0.17.4",
     "next": "latest",
     "react": "18.2.0",
