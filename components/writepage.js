@@ -30,8 +30,14 @@ export default function WritePage({
           ref={inputRef}
         ></div>
         <div className={styles.answerButtonBox}>
-          <button className={styles.answerButton} onClick={onAnswer} ref={answerButtonRef}>
-            <span className={styles.buttonText} ref={answerButtonTextRef}>Answer</span>
+          <button
+            className={styles.answerButton}
+            onClick={onAnswer}
+            ref={answerButtonRef}
+          >
+            <span className={styles.buttonText} ref={answerButtonTextRef}>
+              Answer
+            </span>
           </button>
         </div>
       </div>

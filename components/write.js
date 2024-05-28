@@ -58,9 +58,25 @@ export default function Write({ cardData }) {
   const [remaining, setRemaining] = useState(cardData.length);
   const [numCorrect, setNumCorrect] = useState(0);
   const [onIncorrect, setIncPage] = useState(false);
+  const [answerAnimation, triggerAnimation] = useState(false);
   const inputRef = useRef();
-  const answerButtonRef=useRef()
-  const answerButtonTextRef=useRef()
+  const answerButtonRef = useRef();
+  const answerButtonTextRef = useRef();
+  const timeoutRef = useRef(null);
+  useEffect(() => {
+    if (answerAnimation && correct != null) {
+      console.log("yeah");
+      timeoutRef.current = setTimeout(() => {
+        console.log("aaaa");
+        answerButtonRef.current.classList.remove(styles.animation);
+        answerButtonTextRef.current.innerHTML = "Answer";
+        triggerAnimation(false);
+      }, 500);
+      return () => {
+        clearTimeout(timeoutRef.current);
+      };
+    }
+  }, [answerAnimation]);
 
   function changeInput(e) {
     setInput(e.currentTarget.innerHTML);
@@ -89,7 +105,13 @@ export default function Write({ cardData }) {
   };
 
   const onAnswer = () => {
-    if (input.toLowerCase() == cardData[currentCard].answer.toLowerCase()) {
+    if (
+      input.toLowerCase().replace(/<br ?\/?>/g, "") ==
+      cardData[currentCard].answer.toLowerCase().replace(/<br ?\/?>/g, "")
+    ) {
+      answerButtonRef.current.classList.add(styles.animation);
+      answerButtonTextRef.current.innerHTML = "Correct!";
+      triggerAnimation(true);
       checkCorrect(true);
       setNumCorrect((a) => a + 1);
       setRemaining((a) => a - 1);
@@ -135,7 +157,7 @@ export default function Write({ cardData }) {
   };
 
   return (
-    <div className={styles.fullPage} tabIndex={0}>
+    <div className={styles.fullPage}>
       <div className={styles.writeHolder}>
         <ProgressArea
           total={cardData.length}
