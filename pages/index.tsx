@@ -1,4 +1,5 @@
-import FlashcardHolder from '../components/flashcardholder.js'
+import FlashcardHolder from '../components/flashcardholder'
+
 
 const cards = [
   {question: "who wrote the declaration of independance", answer: "thomas jefferson"},

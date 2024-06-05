@@ -1,14 +1,33 @@
 import styles from "../styles/write.module.css";
 import { useEffect } from "react";
 
-export default function WriteResult({
+type Props = {
+  term: string;
+  answer: string;
+  useranswer: string;
+  onOverride(): void;
+  onContinue(): void;
+  setIncPage(correct: boolean): void;
+  onIncorrect: boolean;
+};
+const WriteResult = ({
   term,
   answer,
   useranswer,
   onOverride,
   onContinue,
-  resultEnter,
-}) {
+  setIncPage,
+  onIncorrect,
+}: Props) => {
+  const resultEnter = (e: KeyboardEvent) => {
+    if (e.key === "Enter" && onIncorrect) {
+      e.preventDefault();
+      onContinue();
+    }
+    if (!onIncorrect) {
+      setIncPage(true);
+    }
+  };
   useEffect(() => {
     console.log("blah");
     document.addEventListener("keydown", resultEnter);
@@ -45,4 +64,6 @@ export default function WriteResult({
       </div>
     </div>
   );
-}
+};
+
+export default WriteResult;

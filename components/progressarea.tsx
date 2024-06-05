@@ -1,7 +1,13 @@
 import styles from "../styles/write.module.css";
 
+type Props = {
+  total: number;
+  remaining: number;
+  correct: number;
+  incorrect: number;
+};
 
-export default function ProgressArea({ total, remaining, correct, incorrect }) {
+const ProgressArea = ({ total, remaining, correct, incorrect }: Props) => {
   console.log(incorrect);
   return (
     <div className={styles.progressArea}>
@@ -42,4 +48,6 @@ export default function ProgressArea({ total, remaining, correct, incorrect }) {
       </div>
     </div>
   );
-}
+};
+
+export default ProgressArea;
