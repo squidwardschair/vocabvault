@@ -2,14 +2,14 @@ import FlashcardHolder from '../components/flashcardholder'
 
 
 const cards = [
-  {question: "who wrote the declaration of independance", answer: "thomas jefferson"},
-  {question: "who is gay", answer: "mr. mackey"},
-  {question: "who is bob", answer: "blah!"}
+  {question: "who wrote the declaration of independance", answer: "thomas jefferson", correct: null},
+  {question: "who is gay", answer: "mr. mackey", correct: null},
+  {question: "who is bob", answer: "blah!", correct: null}
 ]
 
 function App() {
   return (
-    <FlashcardHolder cards={cards} />
+    <FlashcardHolder cardData={cards} />
   );
 }
 

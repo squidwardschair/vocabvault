@@ -1,11 +1,6 @@
 import styles from "../styles/write.module.css";
 import ProgressArea from "./progressarea";
-
-type Card = {
-  question: string;
-  answer: string;
-  correct: boolean | null;
-};
+import { Card } from "../types/index"
 
 type mcProps = {
   cardData: Card[];

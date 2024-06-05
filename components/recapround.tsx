@@ -1,11 +1,6 @@
 import styles from "../styles/write.module.css";
 import RecapHolder from "./recapholder";
-
-type Card = {
-  question: string;
-  answer: string;
-  correct: boolean | null;
-};
+import { Card } from "../types/index"
 
 type roundProps = {
   cards: Card[];
@@ -25,7 +20,7 @@ const RecapRound = ({ cards, round }: roundProps) => {
       <div className={styles.recapHolder}>
         {cards.map((card, index) => (
           <RecapHolder
-            term={card.question}
+            question={card.question}
             answer={card.answer}
             correct={card.correct}
           ></RecapHolder>

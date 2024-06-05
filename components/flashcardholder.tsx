@@ -1,17 +1,9 @@
 import React, { useState, MouseEventHandler } from "react";
 import Flashcard from "./flashcard";
 import styles from "../styles/App.module.css";
+import { Card, questionProps } from "../types/index"
 
-type Card = {
-  question: string;
-  answer: string;
-};
-
-type Props = {
-  cards: Card[];
-};
-
-const FlashcardHolder = ({ cards }: Props) => {
+const FlashcardHolder = ({ cardData }: questionProps) => {
   const [currentCard, setCard] = useState(0);
 
   const [side, flipper] = useState(true);
@@ -21,7 +13,7 @@ const FlashcardHolder = ({ cards }: Props) => {
   }
 
   const nextCard = () => {
-    const nextIndex = (currentCard + 1) % cards.length;
+    const nextIndex = (currentCard + 1) % cardData.length;
     setCard(nextIndex);
     if (!side) {
       flip_card();
@@ -29,7 +21,7 @@ const FlashcardHolder = ({ cards }: Props) => {
   };
 
   const previousCard = () => {
-    const previousIndex = (currentCard + 1) % cards.length;
+    const previousIndex = (currentCard + 1) % cardData.length;
     setCard(previousIndex);
     if (!side) {
       flip_card();
@@ -39,7 +31,7 @@ const FlashcardHolder = ({ cards }: Props) => {
   return (
     <div className={styles.studyArea}>
       <div className={styles["card-holder"]}>
-        {cards.map((card, index) => (
+        {cardData.map((card, index) => (
           <Flashcard
             question={card.question}
             answer={card.answer}

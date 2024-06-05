@@ -8,6 +8,7 @@ type Props = {
   side: boolean;
   onClick: MouseEventHandler;
 };
+
 const Flashcard = ({ question, answer, active, side, onClick }: Props) => {
   return (
     <div className={active ? styles.activeCard : styles.inactiveCard}>

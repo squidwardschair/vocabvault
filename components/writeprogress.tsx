@@ -1,16 +1,12 @@
 import styles from "../styles/write.module.css";
 import RecapRound from "./recapround";
-
-type Card = {
-  question: string;
-  answer: string;
-  correct: boolean | null;
-};
+import { Card } from "../types/index"
 
 type progressProps = {
   rounds: Card[][];
   onContinue(): void;
 };
+
 const WriteProgress = ({ rounds, onContinue }: progressProps) => {
   console.log(rounds);
   return (

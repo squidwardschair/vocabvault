@@ -10,15 +10,7 @@ import {
   KeyboardEventHandler,
 } from "react";
 import styles from "../styles/write.module.css";
-
-type Card = {
-  question: string;
-  answer: string;
-  correct: boolean | null;
-};
-type WriteProps = {
-  cardData: Card[];
-};
+import { questionProps, Card} from "../types/index"
 
 type DisplayProps = {
   onWrite: boolean | null;
@@ -82,7 +74,7 @@ const DisplayWrite = ({
     );
   }
 };
-const Write = ({ cardData }: WriteProps) => {
+const Write = ({ cardData }: questionProps) => {
   const [activeCards, setActiveCards] = useState<Card[]>(cardData);
   const [currentCard, changeCard] = useState<number>(0);
   const [input, setInput] = useState<string>("");

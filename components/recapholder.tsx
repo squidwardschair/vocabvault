@@ -1,10 +1,5 @@
 import styles from "../styles/write.module.css";
-
-type holderProps = {
-  term: string;
-  answer: string;
-  correct: null | boolean;
-};
+import { Card } from "../types/index"
 
 const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
   if (correct) {
@@ -33,11 +28,11 @@ const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
     );
   }
 };
-const RecapHolder = ({ term, answer, correct }: holderProps) => {
+const RecapHolder = ({ question, answer, correct }: Card) => {
   return (
     <div className={styles.recapAnswers}>
       <div className={styles.recapTerm}>
-        <span className={styles.overallText}>{term}</span>
+        <span className={styles.overallText}>{question}</span>
       </div>
       <div className={styles.recapAnswer}>
         <CorrectIcon correct={correct}></CorrectIcon>
