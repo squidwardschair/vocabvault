@@ -7,7 +7,7 @@ type Props = {
   useranswer: string;
   onOverride(): void;
   onContinue(): void;
-  setIncPage(correct: boolean): void;
+  fullscreenEnter(correct: boolean): void;
   onIncorrect: boolean;
 };
 const WriteResult = ({
@@ -16,7 +16,7 @@ const WriteResult = ({
   useranswer,
   onOverride,
   onContinue,
-  setIncPage,
+  fullscreenEnter,
   onIncorrect,
 }: Props) => {
   const resultEnter = (e: KeyboardEvent) => {
@@ -25,7 +25,7 @@ const WriteResult = ({
       onContinue();
     }
     if (!onIncorrect) {
-      setIncPage(true);
+      fullscreenEnter(true);
     }
   };
   useEffect(() => {

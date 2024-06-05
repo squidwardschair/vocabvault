@@ -1,6 +1,7 @@
 import WritePage, { WriteRefs } from "./writepage";
 import WriteResult from "./writeresult";
 import ProgressArea from "./progressarea";
+import WriteProgress from "./writeprogress"
 import {
   useState,
   useRef,
@@ -24,9 +25,11 @@ type DisplayProps = {
   onChange: FormEventHandler;
   text: string;
   handleEnter: KeyboardEventHandler;
-  setIncPage(correct: boolean): void;
+  fullscreenEnter(correct: boolean): void;
   refs: LegacyRef<WriteRefs>;
   onIncorrect: boolean;
+  roundCards: Card[][]
+  onRoundContinue(): void;
 };
 
 const DisplayWrite = ({
@@ -41,12 +44,14 @@ const DisplayWrite = ({
   onChange,
   text,
   handleEnter,
-  setIncPage,
+  fullscreenEnter,
   onIncorrect,
+  roundCards,
+  onRoundContinue,
   refs,
 }: DisplayProps) => {
   if (onWrite === null) {
-    return <div>blah</div>;
+    return <WriteProgress rounds={roundCards} onContinue={() => onRoundContinue()} />;
   }
   if (onWrite) {
     return (
@@ -68,7 +73,7 @@ const DisplayWrite = ({
         useranswer={useranswer}
         onOverride={() => onOverride()}
         onContinue={() => onContinue()}
-        setIncPage={(correct) => setIncPage(correct)}
+        fullscreenEnter={(correct) => fullscreenEnter(correct)}
         onIncorrect={onIncorrect}
       />
     );
@@ -80,12 +85,11 @@ const Write = ({ cardData }: questionProps) => {
   const [input, setInput] = useState<string>("");
   const [correct, checkCorrect] = useState<boolean | null>(true);
   const [remaining, setRemaining] = useState<number>(activeCards.length);
+  const [total, setTotal] = useState<number>(activeCards.length)
   const [numCorrect, setNumCorrect] = useState<number>(0);
-  const [onIncorrect, setIncPage] = useState<boolean>(false);
+  const [onIncorrect, fullscreenEnter] = useState<boolean>(false);
   const [answerAnimation, triggerAnimation] = useState<boolean>(false);
-  const [curCards, addCurCard] = useState([]);
-  const [incCards, addIncCard] = useState([]);
-  const [roundCards, addRoundCard] = useState([]);
+  const [roundCards, addRoundCard] = useState<Card[][]>([]);
   const writePageRefs = useRef<WriteRefs>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -127,13 +131,19 @@ const Write = ({ cardData }: questionProps) => {
       activeCards[currentCard].correct = false;
       checkCorrect(true);
     }
+    activeCards[currentCard].userAnswer=input.replace(/(<br ?\/?>)|(^[ \t]+)|(\s+$)/g, "")
     setRemaining((a) => a - 1);
   };
 
   const onSkip = () => {
     checkCorrect(false);
-    setIncPage(true);
+    fullscreenEnter(true);
   };
+
+  const onFinish = () => {
+    let curCards = activeCards.map(card => ({ ...card }))
+    addRoundCard([...roundCards, curCards])
+  }
 
   const onAnswer = () => {
     if (
@@ -151,7 +161,8 @@ const Write = ({ cardData }: questionProps) => {
       answerState(true);
       const nextIndex = currentCard + 1;
       if (nextIndex >= activeCards.length) {
-        checkCorrect(null);
+        onFinish()
+        checkCorrect(null)
       } else {
         setInput("");
         writePageRefs!.current!.inputRef!.current!.innerHTML = "";
@@ -164,10 +175,11 @@ const Write = ({ cardData }: questionProps) => {
   };
 
   const onContinue = () => {
-    setIncPage(false);
+    fullscreenEnter(false);
     answerState(false);
     const nextIndex = currentCard + 1;
     if (nextIndex >= activeCards.length) {
+      onFinish()
       checkCorrect(null);
     } else {
       setInput("");
@@ -176,10 +188,11 @@ const Write = ({ cardData }: questionProps) => {
   };
 
   const onOverride = () => {
-    setIncPage(false);
+    fullscreenEnter(false);
     answerState(true);
     const nextIndex = currentCard + 1;
     if (nextIndex >= activeCards.length) {
+      onFinish()
       checkCorrect(null);
     } else {
       setInput("");
@@ -187,14 +200,35 @@ const Write = ({ cardData }: questionProps) => {
     }
   };
 
+  const onRoundContinue = () => {
+    // DONT FORGET ADD OVERALL PERCENTAGE PLZ CHECK NOTEBOOK ALSO COLLAPSABLE BAR
+    let newCards = []
+    for (const card of activeCards) {
+      if (card.correct === false) {
+        card.userAnswer=null
+        card.correct=null
+        newCards.push(card)
+      }
+    }
+    if (!newCards.length) {
+      return (<div>placeholder for finish</div>)
+    }
+    setActiveCards(newCards)
+    setTotal(newCards.length)
+    setRemaining(newCards.length)
+    setNumCorrect(0)
+    changeCard(0)
+    checkCorrect(true)
+
+  }
   return (
     <div className={styles.fullPage}>
       <div className={styles.writeHolder}>
         <ProgressArea
-          total={activeCards.length}
+          total={total}
           remaining={remaining}
           correct={numCorrect}
-          incorrect={activeCards.length - remaining - numCorrect}
+          incorrect={total - remaining - numCorrect}
         />
         <DisplayWrite
           onWrite={correct}
@@ -208,8 +242,10 @@ const Write = ({ cardData }: questionProps) => {
           onChange={changeInput}
           text={input}
           handleEnter={handleEnter}
-          setIncPage={setIncPage}
+          fullscreenEnter={fullscreenEnter}
           onIncorrect={onIncorrect}
+          roundCards={roundCards}
+          onRoundContinue={onRoundContinue}
           refs={writePageRefs}
         />
       </div>

@@ -23,6 +23,7 @@ const RecapRound = ({ cards, round }: roundProps) => {
             question={card.question}
             answer={card.answer}
             correct={card.correct}
+            userAnswer={card.userAnswer}
           ></RecapHolder>
         ))}
       </div>

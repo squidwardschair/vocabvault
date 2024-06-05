@@ -28,7 +28,7 @@ const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
     );
   }
 };
-const RecapHolder = ({ question, answer, correct }: Card) => {
+const RecapHolder = ({ question, answer, correct, userAnswer }: Card) => {
   return (
     <div className={styles.recapAnswers}>
       <div className={styles.recapTerm}>
@@ -37,7 +37,7 @@ const RecapHolder = ({ question, answer, correct }: Card) => {
       <div className={styles.recapAnswer}>
         <CorrectIcon correct={correct}></CorrectIcon>
         <span className={correct ? styles.correctText : styles.incorrectText}>
-          {answer}
+          {userAnswer}
         </span>
       </div>
     </div>
