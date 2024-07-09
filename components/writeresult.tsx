@@ -8,7 +8,7 @@ type Props = {
   onOverride(): void;
   onContinue(): void;
   fullscreenEnter(correct: boolean): void;
-  onIncorrect: boolean;
+  enterStatus: boolean|null;
 };
 const WriteResult = ({
   term,
@@ -17,15 +17,15 @@ const WriteResult = ({
   onOverride,
   onContinue,
   fullscreenEnter,
-  onIncorrect,
+  enterStatus,
 }: Props) => {
   const resultEnter = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && onIncorrect) {
+    if (e.key === "Enter" && enterStatus) {
       e.preventDefault();
       onContinue();
     }
-    if (!onIncorrect) {
-      fullscreenEnter(true);
+    if (enterStatus===null) {
+      fullscreenEnter(true)
     }
   };
   useEffect(() => {

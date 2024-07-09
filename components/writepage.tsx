@@ -6,6 +6,7 @@ import {
   useImperativeHandle,
   useRef,
   RefObject,
+  useEffect,
 } from "react";
 
 type Props = {
@@ -34,6 +35,10 @@ const WritePage = forwardRef<WriteRefs, Props>(function Page(props, ref) {
     answerButtonTextRef: answerButtonTextRef,
   }));
 
+  useEffect(() => {
+    inputRef?.current?.focus()
+
+  }, [])
   return (
     <div className={styles.writingArea}>
       <div className={styles.termHeader}>

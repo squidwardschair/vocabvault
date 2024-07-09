@@ -10,6 +10,7 @@ const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
         viewBox="0 -960 960 960"
         width="24px"
         fill="#90ee90"
+        className={styles.resultIcon}
       >
         <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
       </svg>
@@ -22,6 +23,7 @@ const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
         viewBox="0 -960 960 960"
         width="24px"
         fill="#f08080"
+        className={styles.resultIcon}
       >
         <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
       </svg>
