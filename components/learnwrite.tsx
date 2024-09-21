@@ -1,8 +1,5 @@
 import WritePage, { WriteRefs } from "./writepage";
 import WriteResult from "./writeresult";
-import ProgressArea from "./progressarea";
-import FullWriteRecap from "./fullwriterecap";
-import IndvWriteRecap from "./indvwriterecap";
 import {
   useState,
   useRef,
@@ -16,11 +13,9 @@ import { Card } from "../types/index";
 
 export type writeProps = {
   cardData: Card[];
-  learnMode: boolean;
   learnStateFunc(status: boolean): void;
-  learnCorrectFunc(correct: boolean|null): void
+  learnCorrectFunc(correct: boolean | null): void;
 };
-
 
 type DisplayProps = {
   onWrite: boolean | null;
@@ -37,10 +32,6 @@ type DisplayProps = {
   fullscreenEnter(correct: boolean): void;
   refs: LegacyRef<WriteRefs>;
   enterStatus: boolean | null;
-  roundCards: Card[][];
-  onRoundContinue(): void;
-  roundPercents: string[];
-  onIndvContinue(index: number): void;
   setInput(text: string): void;
   isFinished: boolean;
 };
@@ -59,41 +50,9 @@ const DisplayWrite = ({
   handleEnter,
   fullscreenEnter,
   enterStatus,
-  roundCards,
-  onRoundContinue,
-  roundPercents,
-  onIndvContinue,
   setInput,
-  isFinished,
   refs,
 }: DisplayProps) => {
-  if (onWrite === null) {
-    if (isFinished) {
-      return (
-        <FullWriteRecap
-          rounds={roundCards}
-          roundPercents={roundPercents}
-          onContinue={() => onRoundContinue()}
-          enterStatus={enterStatus}
-          fullscreenEnter={(correct) => fullscreenEnter(correct)}
-          onIndvContinue={(index) => onIndvContinue(index)}
-          isFinished={isFinished}
-        />
-      );
-    } else {
-      return (
-        <IndvWriteRecap
-          round={roundCards[roundCards.length - 1]}
-          roundPercent={roundPercents[roundPercents.length - 1]}
-          roundNum={roundCards.length - 1}
-          onContinue={() => onRoundContinue()}
-          enterStatus={enterStatus}
-          fullscreenEnter={fullscreenEnter}
-          isFinished={false}
-        />
-      );
-    }
-  }
   if (onWrite) {
     return (
       <WritePage
@@ -121,7 +80,11 @@ const DisplayWrite = ({
     );
   }
 };
-const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeProps) => {
+const LearnWrite = ({
+  cardData,
+  learnStateFunc,
+  learnCorrectFunc,
+}: writeProps) => {
   const [activeCards, setActiveCards] = useState<Card[]>(cardData);
   const [currentCard, changeCard] = useState<number>(0);
   const [input, setInput] = useState<string>("");
@@ -148,6 +111,8 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
         writePageRefs!.current!.answerButtonTextRef!.current!.innerHTML =
           "Answer";
         triggerAnimation(false);
+        learnCorrectFunc(true)
+        learnStateFunc(true);
       }, 500);
       return () => {
         clearTimeout(timeoutRef.current as NodeJS.Timeout);
@@ -170,12 +135,11 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
   const answerState = (correct: boolean) => {
     if (correct) {
       activeCards[currentCard].correct = true;
-      learnCorrectFunc(true)
       checkCorrect(true);
       setNumCorrect((a) => a + 1);
     } else {
       activeCards[currentCard].correct = false;
-      learnCorrectFunc(false)
+      learnCorrectFunc(false);
       checkCorrect(true);
     }
     activeCards[currentCard].userAnswer = input.replace(
@@ -211,7 +175,9 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
 
   const onAnswer = () => {
     if (
-      input.toLowerCase().replace(/(<br ?\/?>)|(&nbsp;)|(^[ \t]+)|(\s+$)/g, "") ==
+      input
+        .toLowerCase()
+        .replace(/(<br ?\/?>)|(&nbsp;)|(^[ \t]+)|(\s+$)/g, "") ==
       activeCards[currentCard].answer
         .toLowerCase()
         .replace(/(<br ?\/?>)|(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")
@@ -222,20 +188,6 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
       writePageRefs!.current!.answerButtonTextRef!.current!.innerHTML =
         "Correct!";
       triggerAnimation(true);
-      answerState(true);
-      learnStateFunc(true)
-      const nextIndex = currentCard + 1;
-      if (nextIndex >= activeCards.length) {
-        onFinish(true);
-        checkCorrect(null);
-        if (enterStatus != null) {
-          fullscreenEnter(true);
-        }
-      } else {
-        setInput("");
-        writePageRefs!.current!.inputRef!.current!.innerHTML = "";
-        changeCard(nextIndex);
-      }
     } else {
       checkCorrect(false);
       if (enterStatus != null) {
@@ -245,9 +197,11 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
   };
 
   const onContinue = () => {
+    learnStateFunc(true);
+    learnCorrectFunc(false);
+
     fullscreenEnter(false);
     answerState(false);
-    learnStateFunc(true)
     const nextIndex = currentCard + 1;
     if (nextIndex >= activeCards.length) {
       onFinish(false);
@@ -262,9 +216,10 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
   };
 
   const onOverride = () => {
+    learnStateFunc(true);
+    learnCorrectFunc(true);
     fullscreenEnter(false);
     answerState(true);
-    learnStateFunc(true)
     const nextIndex = currentCard + 1;
     if (nextIndex >= activeCards.length) {
       onFinish(true);
@@ -276,108 +231,30 @@ const Write = ({ cardData, learnMode, learnStateFunc, learnCorrectFunc }: writeP
     }
   };
 
-  const onIndvContinue = (index: number) => {
-    let newCards: Card[];
-    newCards = [...roundCards[index]];
-    for (const card of newCards) {
-      card.userAnswer = null;
-      card.correct = null;
-    }
-    addRoundCard([])
-    addRoundPercent([])
-    setFinishedState(false)
-    setActiveCards(newCards);
-    setTotal(newCards.length);
-    setRemaining(newCards.length);
-    setNumCorrect(0);
-    changeCard(0);
-    checkCorrect(true);  
-  }
-  const onRoundContinue = () => {
-    // DONT FORGET ADD OVERALL PERCENTAGE PLZ CHECK NOTEBOOK ALSO COLLAPSABLE BAR
-    let newCards = []
-    for (const card of activeCards) {
-      if (card.correct === false) {
-        card.userAnswer=null
-        card.correct=null
-        newCards.push(card)
-      }
-    }
-    if (!newCards.length) {
-      return (<div>placeholder for finish</div>)
-    }
-    setActiveCards(newCards);
-    setTotal(newCards.length);
-    setRemaining(newCards.length);
-    setNumCorrect(0);
-    changeCard(0);
-    checkCorrect(true);
-  };
-
-  if (learnMode) {
-    return (
-        <div className={`${styles.learnModeHeight} ${styles.writeHolder}`}>
-          <DisplayWrite
-            onWrite={correct}
-            question={activeCards[currentCard].question}
-            onAnswer={onAnswer}
-            answer={activeCards[currentCard].answer}
-            useranswer={input.replace(/<br ?\/?>/g, "\n").replace(/(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")}
-            onSkip={onSkip}
-            onOverride={onOverride}
-            onContinue={onContinue}
-            onChange={changeInput}
-            text={input}
-            handleEnter={handleEnter}
-            fullscreenEnter={fullscreenEnter}
-            enterStatus={enterStatus}
-            roundCards={roundCards}
-            onRoundContinue={onRoundContinue}
-            roundPercents={roundPercents}
-            onIndvContinue={onIndvContinue}
-            isFinished={finishedState}
-            setInput={setInput}
-            refs={writePageRefs}
-          />
-        </div>
-    );
-  } else {
-    return (
-      <div className={styles.fullPage}>
-        <div className={styles.writeHolder}>
-          <ProgressArea
-            total={total}
-            remaining={remaining}
-            correct={numCorrect}
-            incorrect={total - remaining - numCorrect}
-          />
-          <DisplayWrite
-            onWrite={correct}
-            question={activeCards[currentCard].question}
-            onAnswer={onAnswer}
-            answer={activeCards[currentCard].answer}
-            useranswer={input.replace(/<br ?\/?>/g, "\n").replace(/(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")}
-            onSkip={onSkip}
-            onOverride={onOverride}
-            onContinue={onContinue}
-            onChange={changeInput}
-            text={input}
-            handleEnter={handleEnter}
-            fullscreenEnter={fullscreenEnter}
-            enterStatus={enterStatus}
-            roundCards={roundCards}
-            onRoundContinue={onRoundContinue}
-            roundPercents={roundPercents}
-            onIndvContinue={onIndvContinue}
-            isFinished={finishedState}
-            setInput={setInput}
-            refs={writePageRefs}
-          />
-        </div>
-      </div>
-    );
-  }
-
+  return (
+    <div className={`${styles.learnModeHeight} ${styles.writeHolder}`}>
+      <DisplayWrite
+        onWrite={correct}
+        question={activeCards[currentCard].question}
+        onAnswer={onAnswer}
+        answer={activeCards[currentCard].answer}
+        useranswer={input
+          .replace(/<br ?\/?>/g, "\n")
+          .replace(/(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")}
+        onSkip={onSkip}
+        onOverride={onOverride}
+        onContinue={onContinue}
+        onChange={changeInput}
+        text={input}
+        handleEnter={handleEnter}
+        fullscreenEnter={fullscreenEnter}
+        enterStatus={enterStatus}
+        isFinished={finishedState}
+        setInput={setInput}
+        refs={writePageRefs}
+      />
+    </div>
+  );
 };
 
-export default Write;
+export default LearnWrite;

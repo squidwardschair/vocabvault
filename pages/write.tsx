@@ -8,6 +8,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 0,
   },
   {
     question: "Checks and Balances",
@@ -16,6 +17,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 1,
   },
   {
     question: "Electoral College",
@@ -24,6 +26,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 2,
   },
   {
     question: "Compromise of 1850",
@@ -32,6 +35,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 3,
   },
   {
     question: "Monroe Doctrine",
@@ -40,6 +44,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 4,
   },
   {
     question: "Federalism",
@@ -48,6 +53,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 5,
   },
   {
     question: "Federalist Papers",
@@ -56,6 +62,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 6,
   },
   {
     question: "House of Representatives",
@@ -64,6 +71,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 7,
   },
   {
     question: "Watergate",
@@ -72,6 +80,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 8,
   },
   {
     question: "Marbury V Madison",
@@ -80,6 +89,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 9,
   },
   {
     question: "Korematsu v US",
@@ -88,6 +98,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 10,
   },
   {
     question: "Schenck V US",
@@ -96,6 +107,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 11,
   },
   {
     question: "Brown V Board of Education",
@@ -104,6 +116,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 12,
   },
   {
     question: "Plessy V Ferguson",
@@ -112,6 +125,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 13,
   },
   {
     question: "Mapp V Ohio",
@@ -120,6 +134,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 14,
   },
   {
     question: "Miranda V Arizona",
@@ -128,6 +143,7 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 15,
   },
   {
     question: "NJ v TLO",
@@ -136,11 +152,12 @@ const cards = [
     correct: null,
     userAnswer: null,
     learnStatus: 0,
+    id: 16,
   },
 ];
 
 const WriteMode = () => {
-  return <Write cardData={cards} learnMode={false} />;
+  return <Write cardData={cards} learnMode={false} learnStateFunc={(() => false)} learnCorrectFunc={(() => false)} />;
 };
 
 export default WriteMode;

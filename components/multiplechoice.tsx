@@ -6,6 +6,8 @@ type mcProps = {
   card: Card;
   cardIndex: number;
   cardData: Card[];
+  learnStateFunc(status: boolean): void;
+  learnCorrectFunc(correct: boolean|null): void
 };
 
 const emptyCard = {
@@ -15,6 +17,7 @@ const emptyCard = {
   correct: null,
   userAnswer: null,
   learnStatus: 0,
+  id: 0,
 }
 const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
   if (correct) {
@@ -59,7 +62,7 @@ const shuffle = (array: Card[]) => {
     ];
   }
 };
-const MultipleChoice = ({ card, cardIndex, cardData }: mcProps) => {
+const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrectFunc }: mcProps) => {
   const [choices, generateChoices] = useState<(Card)[]>([
     emptyCard,
     emptyCard,
@@ -96,6 +99,7 @@ const MultipleChoice = ({ card, cardIndex, cardData }: mcProps) => {
 
 
   useEffect(() => {
+
     let answerChoices = [card];
     let remainingCard = [...cardData];
     remainingCard.splice(cardIndex, 1);
@@ -109,7 +113,7 @@ const MultipleChoice = ({ card, cardIndex, cardData }: mcProps) => {
     console.log(answerChoices);
     shuffle(answerChoices);
     generateChoices(answerChoices);
-  }, []);
+  }, [card]);
   console.log(choices);
   const onAnswer = (userAnswer: number) => {
     if (isAnswered) {
@@ -118,6 +122,7 @@ const MultipleChoice = ({ card, cardIndex, cardData }: mcProps) => {
     if (choices[userAnswer] == card) {
       labelStateFunctions[userAnswer](true)
       choiceRefs[userAnswer]?.current?.classList?.add(styles.mcCorrectAnswer);
+      learnCorrectFunc(true)
     } else {
       let correctIndex = choices.indexOf(card)
       labelStateFunctions[userAnswer](false)
@@ -126,18 +131,62 @@ const MultipleChoice = ({ card, cardIndex, cardData }: mcProps) => {
       choiceRefs[correctIndex]?.current?.classList?.add(
         styles.mcCorrectOnIncorrectAnswer
       );
+      learnCorrectFunc(false)
     }
     triggerAnswer(true)
     continueBoxRef?.current?.classList?.add(styles.mcContinueDisplay)
   };
 
+  const onContinue = () => {
+    learnStateFunc(true)
+    for (const choice of choiceRefs) {
+      choice?.current?.classList?.remove(styles.mcCorrectAnswer)
+      choice?.current?.classList?.remove(styles.mcIncorrectAnswer)
+      choice?.current?.classList?.remove(styles.mcCorrectOnIncorrectAnswer)
+    }
+    continueBoxRef?.current?.classList?.remove(styles.mcContinueDisplay)
+    triggerAnswer(false)
+    for (const icon of labelStateFunctions) {
+      icon(null)
+    }
+  }
+
+  const resultEnter = (e: KeyboardEvent) => {
+    if ((e.key === "a"||e.key==="1"||e.key==="A") && !isAnswered) {
+      e.preventDefault();
+      onAnswer(0);
+    }
+    if ((e.key === "b"||e.key==="2"||e.key==="B") && !isAnswered) {
+      e.preventDefault();
+      onAnswer(1);
+    }
+    if ((e.key === "c"||e.key==="3"||e.key==="C") && !isAnswered) {
+      e.preventDefault();
+      onAnswer(2);
+    }
+    if ((e.key === "d"||e.key==="4"||e.key==="D") && !isAnswered) {
+      e.preventDefault();
+      onAnswer(3);
+    }
+    if (isAnswered && e.key=="Enter") {
+      e.preventDefault();
+      onContinue()
+    }
+  };
+  useEffect(() => {
+    console.log("blah");
+    document.addEventListener("keydown", resultEnter);
+
+    return function cleanup() {
+      document.removeEventListener("keydown", resultEnter);
+    };
+  }, [resultEnter]);
   // checkmarks animation too 
   return (
-      <div className={styles.writeHolder}>
+      <div className={`${styles.learnModeHeight} ${styles.writeHolder}`}>
         <div className={`${styles.writingArea} ${styles.mcBottomPadding}`}>
           <div className={styles.termHeader}>
             <span className={styles.termText}>{card.question}</span>
-            <span className={styles.skip}>Skip</span>
           </div>
           <div className={styles.mcAnswerBox}>
             <span className={styles.bpaText}>
@@ -195,9 +244,9 @@ const MultipleChoice = ({ card, cardIndex, cardData }: mcProps) => {
             </div>
             <div className={styles.mcContinueBox} ref={continueBoxRef}>
               <span className={styles.keyContinueText}>
-                Press any key to continue
+                Press Enter to continue
               </span>
-              <button className={styles.mcContinueButton}>Continue</button>
+              <button className={styles.mcContinueButton} onClick={() => onContinue()}>Continue</button>
             </div>
           </div>
         </div>

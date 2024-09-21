@@ -4,6 +4,7 @@ export type Card = {
   correct: boolean | null;
   userAnswer: string | null;
   learnStatus: number;
+  id: number;
   isEmpty?: boolean;
 };
 export type questionProps = {

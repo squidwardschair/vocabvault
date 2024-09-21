@@ -1,4 +1,6 @@
 import styles from "../styles/write.module.css";
+import AccentBox from "./accents";
+
 import {
   KeyboardEventHandler,
   FormEventHandler,
@@ -16,6 +18,7 @@ type Props = {
   onChange: FormEventHandler;
   text: string;
   handleEnter: KeyboardEventHandler;
+  setInput(text: string): void;
 };
 
 export type WriteRefs = {
@@ -24,7 +27,21 @@ export type WriteRefs = {
   answerButtonTextRef: RefObject<HTMLSpanElement> | null;
 };
 
-const WritePage = forwardRef<WriteRefs, Props>(function Page(props, ref) {
+const accents: {[key: string]: string} = {
+  "a": "á",
+  "A": "Á",
+  "e": "é",
+  "E": "É",
+  "i": "í",
+  "I": "Í",
+  "n": "ñ" ,
+  "N": "Ñ",
+  "o": "ó",
+  "O": "Ó",
+
+}
+
+const WritePage = forwardRef<WriteRefs, Props>((props, ref) => {
   const inputRef = useRef<HTMLDivElement>(null);
   const answerButtonRef = useRef<HTMLButtonElement>(null);
   const answerButtonTextRef = useRef<HTMLSpanElement>(null);
@@ -34,11 +51,49 @@ const WritePage = forwardRef<WriteRefs, Props>(function Page(props, ref) {
     answerButtonRef: answerButtonRef,
     answerButtonTextRef: answerButtonTextRef,
   }));
-
+  const pressed = () => {
+    if (!inputRef?.current?.innerHTML) {
+      return
+    }
+    const flippedAccents = Object.entries(accents).reduce((acc: {[key: string]: string}, [key, value]) => (acc[value] = key, acc), {})
+    let newAccent = accents[inputRef?.current?.innerHTML.slice(-1)]
+    if (!newAccent) {
+      newAccent = flippedAccents[inputRef?.current?.innerHTML.slice(-1)]
+    }
+    inputRef.current.innerHTML = inputRef.current.innerHTML.slice(0, -1) + newAccent
+    props.setInput(inputRef?.current?.innerHTML.slice(0, -1) + newAccent)
+    inputRef.current.focus();
+    window.getSelection()?.selectAllChildren(inputRef.current)
+    window.getSelection()?.collapseToEnd()
+  }
   useEffect(() => {
-    inputRef?.current?.focus()
+    inputRef?.current?.focus();
+    inputRef?.current?.addEventListener("paste", function (e) {
+      e.preventDefault();
+      const text = e?.clipboardData?.getData("text/plain");
+      const range = document?.getSelection()?.getRangeAt(0);
+      if (range && text) {
+        range.deleteContents();
 
-  }, [])
+        const textNode = document.createTextNode(text);
+        range.insertNode(textNode);
+        range.selectNodeContents(textNode);
+        range.collapse(false);
+
+        const selection = window.getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      }
+      if (inputRef.current?.innerHTML) {
+        props.setInput(
+          inputRef.current.innerHTML.replace(
+            /(<br ?\/?>)|(&nbsp;)|(^[ \t]+)|(\s+$)/g,
+            ""
+          )
+        );
+      }
+    });
+  }, []);
   return (
     <div className={styles.writingArea}>
       <div className={styles.termHeader}>
@@ -69,6 +124,7 @@ const WritePage = forwardRef<WriteRefs, Props>(function Page(props, ref) {
           </button>
         </div>
       </div>
+      <AccentBox letter={inputRef?.current?.innerHTML.slice(-1)} pressed={() => pressed()}/>
     </div>
   );
 });
