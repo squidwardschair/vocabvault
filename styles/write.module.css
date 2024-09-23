@@ -494,13 +494,14 @@
   height: 20px;
   border-radius: 10px;
   display: flex;
-  border: 4px solid #a8cd9f;
+  border: 3px solid #a8cd9f;
   margin-top: 25px;
+  overflow: hidden;
 }
 
 .learnProgressCard {
   flex-grow: 1;
-  border-right: 4px solid #a8cd9f;
+  border-right: 3px solid #a8cd9f;
 }
 
 .lastProgress {

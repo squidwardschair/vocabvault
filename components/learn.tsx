@@ -11,32 +11,37 @@ type dispatchProps = {
   cardCorrect(correct: boolean | null): void;
   isRecap: boolean | null;
   setRecap(recap: boolean | null): void;
-  createPool(): void;
   cardIndex: number;
-  cardData: Card[]
+  cardData: Card[];
   dispatchDone: boolean | null;
 };
 
 const shuffle = (array: Card[]) => {
-    let currentIndex = array.length;
-  
-    while (currentIndex != 0) {
-      let randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-  };
-const DispatchLearn = ({ card, doneStatus, cardCorrect, isRecap, setRecap, createPool, cardIndex, cardData, dispatchDone }: dispatchProps) => {
-  if (isRecap) {
-    return (
-        <LearnRecap cards={cardData} setRecap={setRecap} />
-    )
+  let currentIndex = array.length;
+
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
   }
-  if (card.learnStatus>2) {
+};
+const DispatchLearn = ({
+  card,
+  doneStatus,
+  cardCorrect,
+  isRecap,
+  setRecap,
+  cardIndex,
+  cardData,
+  dispatchDone,
+}: dispatchProps) => {
+  if (isRecap) {
+    return <LearnRecap cards={cardData} setRecap={setRecap} />;
+  } else if (card.learnStatus > 2) {
     return (
       <LearnWrite
         cardData={[card]}
@@ -47,8 +52,14 @@ const DispatchLearn = ({ card, doneStatus, cardCorrect, isRecap, setRecap, creat
     );
   } else {
     return (
-        <MultipleChoice card={card} cardData={cardData} cardIndex={cardIndex} learnCorrectFunc={cardCorrect} learnStateFunc={doneStatus} />
-    )
+      <MultipleChoice
+        card={card}
+        cardData={cardData}
+        cardIndex={cardIndex}
+        learnCorrectFunc={cardCorrect}
+        learnStateFunc={doneStatus}
+      />
+    );
   }
 };
 const Learn = ({ cards }: { cards: Card[] }) => {
@@ -60,9 +71,11 @@ const Learn = ({ cards }: { cards: Card[] }) => {
   const [curPool, setCurPool] = useState<Card[]>(cards.slice(0, 9));
   const [curPoolIndex, setPoolIndex] = useState<number>(0);
   const [maxIndex, setMaxIndex] = useState<number>(8);
+  const [tester, setTest] = useState<Card[]>();
+
   useEffect(() => {
-    if (dispatchDone==null || dispatchDone==false) {
-        return
+    if (dispatchDone == null || dispatchDone == false) {
+      return;
     }
     let curCard = curPool[curPoolIndex];
     if (curCardCorrect) {
@@ -76,10 +89,8 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         curCard.learnStatus == 5
       ) {
         curCard.learnStatus += 1;
-      } else if (
-        curCard.learnStatus == 6
-      ) {
-        curCard.learnStatus = 6
+      } else if (curCard.learnStatus == 6) {
+        curCard.learnStatus = 6;
       }
     } else {
       if (
@@ -90,42 +101,49 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         curCard.learnStatus = 1;
       } else if (curCard.learnStatus == 1) {
         curCard.learnStatus = 2;
-      } else if (curCard.learnStatus == 4 || curCard.learnStatus == 5 || curCard.learnStatus == 6) {
+      } else if (
+        curCard.learnStatus == 4 ||
+        curCard.learnStatus == 5 ||
+        curCard.learnStatus == 6
+      ) {
         curCard.learnStatus -= 1;
       }
     }
-    if (curPoolIndex==maxIndex) {
-        setRecap(true)
-        createPool()
-        setPoolIndex(0)
-        doneStatus(false)
-        cardCorrect(null)
-        setMaxIndex(curPool.length-1)
+    if (curPoolIndex == maxIndex) {
+      alert('yeah')
+      setRecap(true);
+      filterCards();
+      setPoolIndex(0);
+      cardCorrect(null);
+      setMaxIndex(curPool.length - 1);
+      doneStatus(false);
+
     } else {
-        doneStatus(false)
-        setPoolIndex(curPoolIndex+1)
-        cardCorrect(null)
+      doneStatus(false);
+      setPoolIndex(curPoolIndex + 1);
+      cardCorrect(null);
     }
   }, [dispatchDone]);
 
-  const createPool = () => {
-    filterCards()
-    let randomCards = [filteredCards[0], filteredCards[4], filteredCards[5]].flat()
-    shuffle(randomCards)
-    let orderPriority = [filteredCards[2], filteredCards[1], filteredCards[3], randomCards].flat()
-    let newCards=[]
-    if (orderPriority.length>8 && orderPriority.length<12) {
-        setCurPool(orderPriority)
-    } else {
-        for (let i=0; i<8; i++) {
-            if (i+1>orderPriority.length) {
-                return
-            }
-            newCards.push(orderPriority[i])
-        }
-        setCurPool(newCards)
+  useEffect(() => {
+    if (isRecap) {
+      let randomCards = [
+        filteredCards[0],
+        filteredCards[2],
+        filteredCards[3],
+      ].flat();
+      setTest(filteredCards[0])
+      shuffle(randomCards);
+      let orderPriority = [filteredCards[1], randomCards].flat();
+      if (orderPriority.length < 12) {
+        setCurPool(orderPriority);
+      } else {
+        setCurPool(orderPriority.slice(0,9));
+      }
     }
-  }
+
+  }, [filteredCards])
+
   const filterCards = () => {
     let newCards = learnCards.filter((card) => {
       return card.learnStatus == 0;
@@ -137,28 +155,29 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       return card.learnStatus == 3 || card.learnStatus == 4;
     });
     let masteredCards = learnCards.filter((card) => {
-      return card.learnStatus == 5;
+      return card.learnStatus == 5 || card.learnStatus == 6;
     });
     setFilteredCards([newCards, priorityCards, finalLearnCards, masteredCards]);
   };
 
   return (
     <div className={styles.fullPage}>
-        <div className={styles.learnHolder}>
+      <div className={styles.learnHolder}>
         <DispatchLearn
-        card={curPool[curPoolIndex]}
-        doneStatus={doneStatus}
-        cardCorrect={cardCorrect}
-        isRecap={isRecap}
-        setRecap={setRecap}
-        createPool={createPool}
-        cardIndex={cards.findIndex(card => card.id==curPool[curPoolIndex].id)}
-        cardData={cards}
-        dispatchDone={dispatchDone}
-      />
-      <LearnProgress cards={cards} />
-        </div>
-
+          card={curPool[curPoolIndex]}
+          doneStatus={doneStatus}
+          cardCorrect={cardCorrect}
+          isRecap={isRecap}
+          setRecap={setRecap}
+          cardIndex={
+            cards.findIndex((card) => card.id == curPool[curPoolIndex].id)
+              
+          }
+          cardData={cards}
+          dispatchDone={dispatchDone}
+        />
+        <LearnProgress cards={cards} />
+      </div>
     </div>
   );
 };

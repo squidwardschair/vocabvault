@@ -111,6 +111,7 @@ const WritePage = forwardRef<WriteRefs, Props>((props, ref) => {
           contentEditable={true}
           data-placeholder="Type your answer here..."
           ref={inputRef}
+          spellCheck={false}
         ></div>
         <div className={styles.answerButtonBox}>
           <button
