@@ -110,7 +110,6 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       }
     }
     if (curPoolIndex == maxIndex) {
-      alert('yeah')
       setRecap(true);
       filterCards();
       setPoolIndex(0);
