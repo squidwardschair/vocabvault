@@ -41,6 +41,7 @@ const RecapRound = ({ index, cards, round, roundPercent, onIndvContinue, isFinis
             userAnswer={card.userAnswer}
             learnStatus={card.learnStatus}
             id={card.id}
+            learnRecaps={card.learnRecaps}
           ></RecapHolder>
         ))}
       </div>

@@ -499,9 +499,20 @@
   overflow: hidden;
 }
 
+.learnRecapBar {
+  width: 100%;
+  height: 10px;
+  border-radius: 10px;
+  display: flex;
+  border: 3px solid #a8cd9f;
+  overflow: hidden;
+}
 .learnProgressCard {
   flex-grow: 1;
   border-right: 3px solid #a8cd9f;
+  text-align: center;
+  font-family: inherit;
+  color: white
 }
 
 .lastProgress {
@@ -509,7 +520,7 @@
 }
 
 .progressOne {
-  background-color: darkslategray;
+  background-color: lightslategray;
   transition: 0.5s;
 }
 

@@ -18,6 +18,7 @@ const emptyCard = {
   userAnswer: null,
   learnStatus: 0,
   id: 0,
+  learnRecaps: [0, 0, 0] 
 }
 const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
   if (correct) {

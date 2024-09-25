@@ -5,6 +5,8 @@ import { useState, useEffect, useRef, RefObject } from "react";
 import LearnProgress from "./learnprogress";
 import styles from "../styles/write.module.css";
 import LearnRecap from "./learnrecap";
+import LearnFinal from "./learnfinalrecap"
+
 type dispatchProps = {
   card: Card;
   doneStatus(status: boolean | null): void;
@@ -13,7 +15,7 @@ type dispatchProps = {
   setRecap(recap: boolean | null): void;
   cardIndex: number;
   cardData: Card[];
-  dispatchDone: boolean | null;
+  isFinished: boolean;
 };
 
 const shuffle = (array: Card[]) => {
@@ -37,10 +39,14 @@ const DispatchLearn = ({
   setRecap,
   cardIndex,
   cardData,
-  dispatchDone,
+  isFinished,
 }: dispatchProps) => {
   if (isRecap) {
-    return <LearnRecap cards={cardData} setRecap={setRecap} />;
+    if (isFinished) {
+      return <LearnFinal cards={cardData} />
+    } else {
+      return <LearnRecap cards={cardData} setRecap={setRecap} />;
+    }
   } else if (card.learnStatus > 2) {
     return (
       <LearnWrite
@@ -71,7 +77,7 @@ const Learn = ({ cards }: { cards: Card[] }) => {
   const [curPool, setCurPool] = useState<Card[]>(cards.slice(0, 9));
   const [curPoolIndex, setPoolIndex] = useState<number>(0);
   const [maxIndex, setMaxIndex] = useState<number>(8);
-  const [tester, setTest] = useState<Card[]>();
+  const [finished, setFinished] = useState<boolean>(false);
 
   useEffect(() => {
     if (dispatchDone == null || dispatchDone == false) {
@@ -81,13 +87,16 @@ const Learn = ({ cards }: { cards: Card[] }) => {
     if (curCardCorrect) {
       if (curCard.learnStatus == 0 || curCard.learnStatus == 1) {
         curCard.learnStatus = 4;
+        curCard.learnRecaps[2]+=1
       } else if (curCard.learnStatus == 2) {
         curCard.learnStatus = 1;
+        curCard.learnRecaps[1]+=1
       } else if (
         curCard.learnStatus == 3 ||
         curCard.learnStatus == 4 ||
         curCard.learnStatus == 5
       ) {
+        curCard.learnRecaps[2]+=1
         curCard.learnStatus += 1;
       } else if (curCard.learnStatus == 6) {
         curCard.learnStatus = 6;
@@ -98,25 +107,35 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         curCard.learnStatus == 2 ||
         curCard.learnStatus == 3
       ) {
+        curCard.learnRecaps[0]+=1
         curCard.learnStatus = 1;
       } else if (curCard.learnStatus == 1) {
+        curCard.learnRecaps[0]+=1
         curCard.learnStatus = 2;
       } else if (
         curCard.learnStatus == 4 ||
         curCard.learnStatus == 5 ||
         curCard.learnStatus == 6
       ) {
+        curCard.learnRecaps[1]+=1
         curCard.learnStatus -= 1;
       }
     }
     if (curPoolIndex == maxIndex) {
-      setRecap(true);
-      filterCards();
-      setPoolIndex(0);
-      cardCorrect(null);
-      setMaxIndex(curPool.length - 1);
-      doneStatus(false);
-
+      let notMastered = learnCards.filter((card) => {
+        return card.learnStatus < 6;
+      });
+      if (notMastered.length==0) {
+        setFinished(true)
+        setRecap(true)
+      } else {
+        setRecap(true);
+        filterCards();
+        setPoolIndex(0);
+        cardCorrect(null);
+        setMaxIndex(curPool.length - 1);
+        doneStatus(false);
+      }
     } else {
       doneStatus(false);
       setPoolIndex(curPoolIndex + 1);
@@ -131,7 +150,6 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         filteredCards[2],
         filteredCards[3],
       ].flat();
-      setTest(filteredCards[0])
       shuffle(randomCards);
       let orderPriority = [filteredCards[1], randomCards].flat();
       if (orderPriority.length < 12) {
@@ -154,7 +172,7 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       return card.learnStatus == 3 || card.learnStatus == 4;
     });
     let masteredCards = learnCards.filter((card) => {
-      return card.learnStatus == 5 || card.learnStatus == 6;
+      return card.learnStatus == 5;
     });
     setFilteredCards([newCards, priorityCards, finalLearnCards, masteredCards]);
   };
@@ -173,7 +191,7 @@ const Learn = ({ cards }: { cards: Card[] }) => {
               
           }
           cardData={cards}
-          dispatchDone={dispatchDone}
+          isFinished={finished}
         />
         <LearnProgress cards={cards} />
       </div>

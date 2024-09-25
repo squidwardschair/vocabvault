@@ -5,6 +5,7 @@ export type Card = {
   userAnswer: string | null;
   learnStatus: number;
   id: number;
+  learnRecaps: number[]
   isEmpty?: boolean;
 };
 export type questionProps = {
