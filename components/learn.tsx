@@ -5,7 +5,7 @@ import { useState, useEffect, useRef, RefObject } from "react";
 import LearnProgress from "./learnprogress";
 import styles from "../styles/write.module.css";
 import LearnRecap from "./learnrecap";
-import LearnFinal from "./learnfinalrecap"
+import LearnFinal from "./learnfinalrecap";
 
 type dispatchProps = {
   card: Card;
@@ -43,7 +43,7 @@ const DispatchLearn = ({
 }: dispatchProps) => {
   if (isRecap) {
     if (isFinished) {
-      return <LearnFinal cards={cardData} />
+      return <LearnFinal cards={cardData} />;
     } else {
       return <LearnRecap cards={cardData} setRecap={setRecap} />;
     }
@@ -87,16 +87,16 @@ const Learn = ({ cards }: { cards: Card[] }) => {
     if (curCardCorrect) {
       if (curCard.learnStatus == 0 || curCard.learnStatus == 1) {
         curCard.learnStatus = 4;
-        curCard.learnRecaps[2]+=1
+        curCard.learnRecaps[2] += 1;
       } else if (curCard.learnStatus == 2) {
         curCard.learnStatus = 1;
-        curCard.learnRecaps[1]+=1
+        curCard.learnRecaps[1] += 1;
       } else if (
         curCard.learnStatus == 3 ||
         curCard.learnStatus == 4 ||
         curCard.learnStatus == 5
       ) {
-        curCard.learnRecaps[2]+=1
+        curCard.learnRecaps[2] += 1;
         curCard.learnStatus += 1;
       } else if (curCard.learnStatus == 6) {
         curCard.learnStatus = 6;
@@ -107,17 +107,17 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         curCard.learnStatus == 2 ||
         curCard.learnStatus == 3
       ) {
-        curCard.learnRecaps[0]+=1
+        curCard.learnRecaps[0] += 1;
         curCard.learnStatus = 1;
       } else if (curCard.learnStatus == 1) {
-        curCard.learnRecaps[0]+=1
+        curCard.learnRecaps[0] += 1;
         curCard.learnStatus = 2;
       } else if (
         curCard.learnStatus == 4 ||
         curCard.learnStatus == 5 ||
         curCard.learnStatus == 6
       ) {
-        curCard.learnRecaps[1]+=1
+        curCard.learnRecaps[1] += 1;
         curCard.learnStatus -= 1;
       }
     }
@@ -125,9 +125,9 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       let notMastered = learnCards.filter((card) => {
         return card.learnStatus < 6;
       });
-      if (notMastered.length==0) {
-        setFinished(true)
-        setRecap(true)
+      if (notMastered.length == 0) {
+        setFinished(true);
+        setRecap(true);
       } else {
         setRecap(true);
         filterCards();
@@ -155,11 +155,10 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       if (orderPriority.length < 12) {
         setCurPool(orderPriority);
       } else {
-        setCurPool(orderPriority.slice(0,9));
+        setCurPool(orderPriority.slice(0, 9));
       }
     }
-
-  }, [filteredCards])
+  }, [filteredCards]);
 
   const filterCards = () => {
     let newCards = learnCards.filter((card) => {
@@ -186,10 +185,9 @@ const Learn = ({ cards }: { cards: Card[] }) => {
           cardCorrect={cardCorrect}
           isRecap={isRecap}
           setRecap={setRecap}
-          cardIndex={
-            cards.findIndex((card) => card.id == curPool[curPoolIndex].id)
-              
-          }
+          cardIndex={cards.findIndex(
+            (card) => card.id == curPool[curPoolIndex].id
+          )}
           cardData={cards}
           isFinished={finished}
         />
