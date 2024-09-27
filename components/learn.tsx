@@ -133,7 +133,6 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         filterCards();
         setPoolIndex(0);
         cardCorrect(null);
-        setMaxIndex(curPool.length - 1);
         doneStatus(false);
       }
     } else {
@@ -152,11 +151,15 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       ].flat();
       shuffle(randomCards);
       let orderPriority = [filteredCards[1], randomCards].flat();
+      let newPool
       if (orderPriority.length < 12) {
-        setCurPool(orderPriority);
+        newPool=orderPriority
+        setCurPool(newPool);
       } else {
-        setCurPool(orderPriority.slice(0, 9));
+        newPool=orderPriority.slice(0, 9)
+        setCurPool(newPool);
       }
+      setMaxIndex(newPool.length-1)
     }
   }, [filteredCards]);
 

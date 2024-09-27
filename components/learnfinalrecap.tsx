@@ -7,21 +7,31 @@ type learnRecapProps = {
 };
 
 const RecapHolder = ({ card }: { card: Card }) => {
-    return (
-      <div className={styles.recapAnswers}>
-        <div className={styles.recapTerm}>
-          <span className={styles.overallText}>{card.question}</span>
-        </div>
-        <div className={styles.recapAnswer}>
-          <div className={styles.learnRecapBar}>
-            <div className={`${styles.learnProgressCard} ${styles.progressTwo}`}>{card.learnRecaps[0]}</div>
-            <div className={`${styles.learnProgressCard} ${styles.progressThree}`}>{card.learnRecaps[1]}</div>
-            <div className={`${styles.learnProgressCard} ${styles.progressFive}`}>{card.learnRecaps[2]}</div>
+  return (
+    <div className={styles.recapAnswers}>
+      <div className={styles.recapTerm}>
+        <span className={styles.overallText}>{card.answer}</span>
+      </div>
+      <div className={styles.recapAnswer}>
+        <div className={styles.learnRecapBar}>
+          <div className={`${styles.learnProgressCard} ${styles.progressTwo}`}>
+            {card.learnRecaps[0]}
+          </div>
+          <div
+            className={`${styles.learnProgressCard} ${styles.progressThree}`}
+          >
+            {card.learnRecaps[1]}
+          </div>
+          <div
+            className={`${styles.learnProgressCard} ${styles.progressFive} ${styles.lastProgress}`}
+          >
+            {card.learnRecaps[2]}
           </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 const LearnFinal = ({ cards }: learnRecapProps) => {
   return (
@@ -33,15 +43,15 @@ const LearnFinal = ({ cards }: learnRecapProps) => {
           </span>
         </div>
         <div className={styles.recapHolder}>
-            {cards.map((card, index) => (
-            <RecapHolder
-                card={card}
-            ></RecapHolder>
-            ))}
+          {cards.map((card, index) => (
+            <RecapHolder card={card}></RecapHolder>
+          ))}
         </div>
-        <button className={styles.continueButton}>
-          <span className={styles.buttonText}>Finish</span>
-        </button>
+        <div className={styles.continueButtonBox}>
+          <button className={styles.continueButton}>
+            <span className={styles.buttonText}>Finish</span>
+          </button>
+        </div>
       </div>
     </div>
   );
