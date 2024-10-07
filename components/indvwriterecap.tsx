@@ -1,10 +1,10 @@
 import styles from "../styles/write.module.css";
 import RecapRound from "./recapround";
-import { Card } from "../types/index"
+import { ClientCard } from "../types/index"
 import { useEffect } from 'react'
 
 type progressProps = {
-  round: Card[];
+  round: ClientCard[];
   roundNum: number;
   onContinue(): void;
   roundPercent: string;

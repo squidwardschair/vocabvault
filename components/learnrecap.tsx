@@ -1,9 +1,9 @@
 import styles from "../styles/write.module.css";
-import { Card } from "../types/index";
+import { ClientCard } from "../types/index";
 import { useEffect } from "react";
 
 type learnRecapProps = {
-  cards: Card[];
+  cards: ClientCard[];
   setRecap(recap: boolean | null): void;
 };
 

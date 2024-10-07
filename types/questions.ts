@@ -1,4 +1,4 @@
-export type Card = {
+export type ClientCard = {
   question: string;
   answer: string;
   correct: boolean | null;
@@ -7,7 +7,9 @@ export type Card = {
   id: number;
   learnRecaps: number[]
   isEmpty?: boolean;
+  questionLanguage: string;
+  answerLanguage: string;
 };
 export type questionProps = {
-  cardData: Card[];
+  cardData: ClientCard[];
 };

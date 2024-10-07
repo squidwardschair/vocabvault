@@ -1,9 +1,9 @@
 import styles from "../styles/write.module.css";
 import RecapHolder from "./recapholder";
-import { Card } from "../types/index"
+import { ClientCard } from "../types/index"
 
 type roundProps = {
-  cards: Card[];
+  cards: ClientCard[];
   round: number;
   roundPercent: string;
   onIndvContinue(index: number): void;
@@ -42,6 +42,8 @@ const RecapRound = ({ index, cards, round, roundPercent, onIndvContinue, isFinis
             learnStatus={card.learnStatus}
             id={card.id}
             learnRecaps={card.learnRecaps}
+            questionLanguage={card.questionLanguage}
+            answerLanguage={card.answerLanguage}
           ></RecapHolder>
         ))}
       </div>

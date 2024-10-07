@@ -1,6 +1,7 @@
 import MultipleChoice from "./multiplechoice";
 import LearnWrite from "./learnwrite";
-import { Card } from "../types/index";
+import { ClientCard } from "../types/index";
+import { Card, Set } from '@prisma/client'
 import { useState, useEffect, useRef, RefObject } from "react";
 import LearnProgress from "./learnprogress";
 import styles from "../styles/write.module.css";
@@ -8,17 +9,17 @@ import LearnRecap from "./learnrecap";
 import LearnFinal from "./learnfinalrecap";
 
 type dispatchProps = {
-  card: Card;
+  card: ClientCard;
   doneStatus(status: boolean | null): void;
   cardCorrect(correct: boolean | null): void;
   isRecap: boolean | null;
   setRecap(recap: boolean | null): void;
   cardIndex: number;
-  cardData: Card[];
+  cardData: ClientCard[];
   isFinished: boolean;
 };
 
-const shuffle = (array: Card[]) => {
+const shuffle = (array: ClientCard[]) => {
   let currentIndex = array.length;
 
   while (currentIndex != 0) {
@@ -68,13 +69,13 @@ const DispatchLearn = ({
     );
   }
 };
-const Learn = ({ cards }: { cards: Card[] }) => {
-  const [learnCards, setLearnCards] = useState<Card[]>(cards);
-  const [filteredCards, setFilteredCards] = useState<Card[][]>([]);
+const Learn = ({ cards }: { cards: ClientCard[] }) => {
+  const [learnCards, setLearnClientCards] = useState<ClientCard[]>(cards);
+  const [filteredClientCards, setFilteredClientCards] = useState<ClientCard[][]>([]);
   const [isRecap, setRecap] = useState<boolean | null>(false);
-  const [curCardCorrect, cardCorrect] = useState<boolean | null>(null);
+  const [curClientCardCorrect, cardCorrect] = useState<boolean | null>(null);
   const [dispatchDone, doneStatus] = useState<boolean | null>(null);
-  const [curPool, setCurPool] = useState<Card[]>(cards.slice(0, 9));
+  const [curPool, setCurPool] = useState<ClientCard[]>(learnCards.slice(0, 9));
   const [curPoolIndex, setPoolIndex] = useState<number>(0);
   const [maxIndex, setMaxIndex] = useState<number>(8);
   const [finished, setFinished] = useState<boolean>(false);
@@ -83,42 +84,42 @@ const Learn = ({ cards }: { cards: Card[] }) => {
     if (dispatchDone == null || dispatchDone == false) {
       return;
     }
-    let curCard = curPool[curPoolIndex];
-    if (curCardCorrect) {
-      if (curCard.learnStatus == 0 || curCard.learnStatus == 1) {
-        curCard.learnStatus = 4;
-        curCard.learnRecaps[2] += 1;
-      } else if (curCard.learnStatus == 2) {
-        curCard.learnStatus = 1;
-        curCard.learnRecaps[1] += 1;
+    let curClientCard = curPool[curPoolIndex];
+    if (curClientCardCorrect) {
+      if (curClientCard.learnStatus == 0 || curClientCard.learnStatus == 1) {
+        curClientCard.learnStatus = 4;
+        curClientCard.learnRecaps[2] += 1;
+      } else if (curClientCard.learnStatus == 2) {
+        curClientCard.learnStatus = 1;
+        curClientCard.learnRecaps[1] += 1;
       } else if (
-        curCard.learnStatus == 3 ||
-        curCard.learnStatus == 4 ||
-        curCard.learnStatus == 5
+        curClientCard.learnStatus == 3 ||
+        curClientCard.learnStatus == 4 ||
+        curClientCard.learnStatus == 5
       ) {
-        curCard.learnRecaps[2] += 1;
-        curCard.learnStatus += 1;
-      } else if (curCard.learnStatus == 6) {
-        curCard.learnStatus = 6;
+        curClientCard.learnRecaps[2] += 1;
+        curClientCard.learnStatus += 1;
+      } else if (curClientCard.learnStatus == 6) {
+        curClientCard.learnStatus = 6;
       }
     } else {
       if (
-        curCard.learnStatus == 0 ||
-        curCard.learnStatus == 2 ||
-        curCard.learnStatus == 3
+        curClientCard.learnStatus == 0 ||
+        curClientCard.learnStatus == 2 ||
+        curClientCard.learnStatus == 3
       ) {
-        curCard.learnRecaps[0] += 1;
-        curCard.learnStatus = 1;
-      } else if (curCard.learnStatus == 1) {
-        curCard.learnRecaps[0] += 1;
-        curCard.learnStatus = 2;
+        curClientCard.learnRecaps[0] += 1;
+        curClientCard.learnStatus = 1;
+      } else if (curClientCard.learnStatus == 1) {
+        curClientCard.learnRecaps[0] += 1;
+        curClientCard.learnStatus = 2;
       } else if (
-        curCard.learnStatus == 4 ||
-        curCard.learnStatus == 5 ||
-        curCard.learnStatus == 6
+        curClientCard.learnStatus == 4 ||
+        curClientCard.learnStatus == 5 ||
+        curClientCard.learnStatus == 6
       ) {
-        curCard.learnRecaps[1] += 1;
-        curCard.learnStatus -= 1;
+        curClientCard.learnRecaps[1] += 1;
+        curClientCard.learnStatus -= 1;
       }
     }
     if (curPoolIndex == maxIndex) {
@@ -130,7 +131,7 @@ const Learn = ({ cards }: { cards: Card[] }) => {
         setRecap(true);
       } else {
         setRecap(true);
-        filterCards();
+        filterClientCards();
         setPoolIndex(0);
         cardCorrect(null);
         doneStatus(false);
@@ -144,13 +145,13 @@ const Learn = ({ cards }: { cards: Card[] }) => {
 
   useEffect(() => {
     if (isRecap) {
-      let randomCards = [
-        filteredCards[0],
-        filteredCards[2],
-        filteredCards[3],
+      let randomClientCards = [
+        filteredClientCards[0],
+        filteredClientCards[2],
+        filteredClientCards[3],
       ].flat();
-      shuffle(randomCards);
-      let orderPriority = [filteredCards[1], randomCards].flat();
+      shuffle(randomClientCards);
+      let orderPriority = [filteredClientCards[1], randomClientCards].flat();
       let newPool
       if (orderPriority.length < 12) {
         newPool=orderPriority
@@ -161,22 +162,22 @@ const Learn = ({ cards }: { cards: Card[] }) => {
       }
       setMaxIndex(newPool.length-1)
     }
-  }, [filteredCards]);
+  }, [filteredClientCards]);
 
-  const filterCards = () => {
-    let newCards = learnCards.filter((card) => {
+  const filterClientCards = () => {
+    let newClientCards = learnCards.filter((card) => {
       return card.learnStatus == 0;
     });
-    let priorityCards = learnCards.filter((card) => {
+    let priorityClientCards = learnCards.filter((card) => {
       return card.learnStatus == 1 || card.learnStatus == 2;
     });
-    let finalLearnCards = learnCards.filter((card) => {
+    let finalLearnClientCards = learnCards.filter((card) => {
       return card.learnStatus == 3 || card.learnStatus == 4;
     });
-    let masteredCards = learnCards.filter((card) => {
+    let masteredClientCards = learnCards.filter((card) => {
       return card.learnStatus == 5;
     });
-    setFilteredCards([newCards, priorityCards, finalLearnCards, masteredCards]);
+    setFilteredClientCards([newClientCards, priorityClientCards, finalLearnClientCards, masteredClientCards]);
   };
 
   return (

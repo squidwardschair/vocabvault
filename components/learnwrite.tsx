@@ -9,10 +9,10 @@ import {
   KeyboardEventHandler,
 } from "react";
 import styles from "../styles/write.module.css";
-import { Card } from "../types/index";
+import { ClientCard } from "../types/index";
 
 export type writeProps = {
-  cardData: Card[];
+  cardData: ClientCard[];
   learnStateFunc(status: boolean): void;
   learnCorrectFunc(correct: boolean | null): void;
 };
@@ -85,7 +85,7 @@ const LearnWrite = ({
   learnStateFunc,
   learnCorrectFunc,
 }: writeProps) => {
-  const [activeCards, setActiveCards] = useState<Card[]>(cardData);
+  const [activeCards, setActiveCards] = useState<ClientCard[]>(cardData);
   const [currentCard, changeCard] = useState<number>(0);
   const [input, setInput] = useState<string>("");
   const [correct, checkCorrect] = useState<boolean | null>(true);
@@ -94,7 +94,7 @@ const LearnWrite = ({
   const [numCorrect, setNumCorrect] = useState<number>(0);
   const [enterStatus, fullscreenEnter] = useState<boolean | null>(false);
   const [answerAnimation, triggerAnimation] = useState<boolean>(false);
-  const [roundCards, addRoundCard] = useState<Card[][]>([]);
+  const [roundCards, addRoundCard] = useState<ClientCard[][]>([]);
   const [roundPercents, addRoundPercent] = useState<string[]>([]);
   const [finishedState, setFinishedState] = useState<boolean>(false);
   const writePageRefs = useRef<WriteRefs>(null);

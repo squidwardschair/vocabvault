@@ -1,0 +1,36 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model Card {
+  id               Int       @id @default(autoincrement())  // Unique identifier for each card
+  set              Set       @relation(fields: [setId], references: [id])  // Foreign key linking to Set
+  setId            Int                                       // Foreign key field
+  question         String                                    // The question side of the card
+  answer           String                                    // The answer side of the card
+  questionLanguage String                                    // Language code for the question
+  answerLanguage   String                                    // Language code for the answer
+  createdAt        DateTime  @default(now())                 // When the card was created
+
+  @@map("cards") // Maps Prisma model to the "cards" table
+}
+
+model Set {
+  id               Int       @id @default(autoincrement())  // Unique identifier
+  name             String                                    // Name of the vocab set
+  description      String?                                   // Optional: Description of the set
+  questionLanguage String                                    // Language code for the questions
+  answerLanguage   String                                    // Language code for the answers
+  createdAt        DateTime  @default(now())                 // When the set was created
+  cards            Card[]    // Relation to the cards
+
+  @@map("sets") // Maps Prisma model to the "sets" table
+}

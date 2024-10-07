@@ -1,12 +1,12 @@
 import styles from "../styles/write.module.css";
-import { Card } from "../types/index";
+import { ClientCard } from "../types/index";
 import { useEffect } from "react";
 
 type learnRecapProps = {
-  cards: Card[];
+  cards: ClientCard[];
 };
 
-const RecapHolder = ({ card }: { card: Card }) => {
+const RecapHolder = ({ card }: { card: ClientCard }) => {
   return (
     <div className={styles.recapAnswers}>
       <div className={styles.recapTerm}>
@@ -14,16 +14,16 @@ const RecapHolder = ({ card }: { card: Card }) => {
       </div>
       <div className={styles.recapAnswer}>
         <div className={styles.learnRecapBar}>
-          <div className={`${styles.learnProgressCard} ${styles.progressTwo}`}>
+          <div className={`${styles.learnProgressClientCard} ${styles.progressTwo}`}>
             {card.learnRecaps[0]}
           </div>
           <div
-            className={`${styles.learnProgressCard} ${styles.progressThree}`}
+            className={`${styles.learnProgressClientCard} ${styles.progressThree}`}
           >
             {card.learnRecaps[1]}
           </div>
           <div
-            className={`${styles.learnProgressCard} ${styles.progressFive} ${styles.lastProgress}`}
+            className={`${styles.learnProgressClientCard} ${styles.progressFive} ${styles.lastProgress}`}
           >
             {card.learnRecaps[2]}
           </div>

@@ -1,16 +1,16 @@
 import styles from "../styles/write.module.css";
-import { Card } from "../types/index";
+import { ClientCard } from "../types/index";
 import { useState, useEffect, useRef, RefObject, Dispatch, SetStateAction } from "react";
 
 type mcProps = {
-  card: Card;
+  card: ClientCard;
   cardIndex: number;
-  cardData: Card[];
+  cardData: ClientCard[];
   learnStateFunc(status: boolean): void;
   learnCorrectFunc(correct: boolean|null): void
 };
 
-const emptyCard = {
+const emptyClientCard = {
   question: "",
   answer:
     "",
@@ -18,7 +18,9 @@ const emptyCard = {
   userAnswer: null,
   learnStatus: 0,
   id: 0,
-  learnRecaps: [0, 0, 0] 
+  learnRecaps: [0, 0, 0], 
+  questionLanguage: "",
+  answerLanguage: ""
 }
 const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
   if (correct) {
@@ -50,7 +52,7 @@ const CorrectIcon = ({ correct }: { correct: boolean | null }) => {
   }
 };
 
-const shuffle = (array: Card[]) => {
+const shuffle = (array: ClientCard[]) => {
   let currentIndex = array.length;
 
   while (currentIndex != 0) {
@@ -64,11 +66,11 @@ const shuffle = (array: Card[]) => {
   }
 };
 const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrectFunc }: mcProps) => {
-  const [choices, generateChoices] = useState<(Card)[]>([
-    emptyCard,
-    emptyCard,
-    emptyCard,
-    emptyCard,
+  const [choices, generateChoices] = useState<(ClientCard)[]>([
+    emptyClientCard,
+    emptyClientCard,
+    emptyClientCard,
+    emptyClientCard,
   ]);
   const [isAnswered, triggerAnswer] = useState<boolean>(false)
   
@@ -102,15 +104,15 @@ const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrec
   useEffect(() => {
 
     let answerChoices = [card];
-    let remainingCard = [...cardData];
-    remainingCard.splice(cardIndex, 1);
-    console.log(remainingCard);
+    let remainingClientCard = [...cardData];
+    remainingClientCard.splice(cardIndex, 1);
+    console.log(remainingClientCard);
     for (let i = 0; i < 3; i++) {
-      let choiceIndex = Math.floor(Math.random() * remainingCard.length);
-      answerChoices.push(remainingCard[choiceIndex]);
-      remainingCard.splice(choiceIndex, 1);
+      let choiceIndex = Math.floor(Math.random() * remainingClientCard.length);
+      answerChoices.push(remainingClientCard[choiceIndex]);
+      remainingClientCard.splice(choiceIndex, 1);
     }
-    console.log(remainingCard);
+    console.log(remainingClientCard);
     console.log(answerChoices);
     shuffle(answerChoices);
     generateChoices(answerChoices);

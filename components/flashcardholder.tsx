@@ -1,7 +1,7 @@
 import React, { useState, MouseEventHandler } from "react";
 import Flashcard from "./flashcard";
 import styles from "../styles/App.module.css";
-import { Card, questionProps } from "../types/index"
+import { ClientCard, questionProps } from "../types/index"
 
 const FlashcardHolder = ({ cardData }: questionProps) => {
   const [currentCard, setCard] = useState(0);
