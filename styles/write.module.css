@@ -583,3 +583,190 @@
 .hidden {
   visibility: hidden;
 }
+
+.createBox {
+  padding-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-top: 50px;
+  background-color: lightgray;
+}
+
+.topCreateBox {
+  width: 80%;
+  display: flex;
+  flex-flow: column;
+}
+
+.topBoxHeader {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  margin-bottom: 15px;
+}
+
+.createBold {
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.createButton {
+  border: 1px solid #58a399;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  background-color: #58a399;
+}
+
+.createButtonText {
+  color: white;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.createButton:hover {
+  background-color: #a8cd9f;
+  border-color: #a8cd9f;
+  cursor: pointer;
+}
+
+.topBoxFooter {
+  display: flex;
+  margin-top: 15px;
+  flex-flow: row;
+}
+
+.bottomButtons {
+  border: 1px solid #58a399;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #58a399;
+  margin-right: 10px;
+  height: 40px;
+}
+
+.bottomButtons:hover {
+  background-color: #a8cd9f;
+  border-color: #a8cd9f;
+  cursor: pointer;
+}
+
+.createTitle {
+  resize: none;
+  border: 1px solid white;
+  background-color: white;
+  font-family: inherit;
+  font-size: 25px;
+  border-radius: 10px;
+  height: 40px;
+  margin-bottom: 15px;
+  white-space: nowrap;
+  line-height: 40px;
+  padding-left: 5px;
+}
+
+.createTitle:focus {
+  outline: #a8cd9f solid 4px;;
+}
+
+.createDescription {
+  resize: none;
+  border: 1px solid white;
+  background-color: white;
+  font-family: inherit;
+  font-size: 15px;
+  border-radius: 10px;
+  height: 150px;
+  line-height: 30px;
+  padding-left: 5px;
+}
+
+.createDescription:focus {
+  outline: #a8cd9f solid 4px;
+}
+
+.createCard {
+  padding-top: 5px;
+  background-color: white;
+  margin-top: 10px;
+  width: 80%;
+}
+
+.newCardHeader {
+  width: 100%;
+  display: flex;
+}
+
+.createSmallHeader {
+  font-family: inherit;
+  font-size: 20px;
+  margin-left: 2%;
+  font-weight: bold;
+}
+
+.createDeleteText {
+  font-family: inherit;
+  font-size: 15px;
+  color: white;
+}
+
+.createDeleteButton {
+  margin-left: auto;
+  margin-right: 2%;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: gray;
+}
+
+.createDeleteButton:hover {
+  cursor: pointer;
+  background-color: darkred;
+  border-color: darkred;
+}
+
+.newCardWriting {
+  margin-top: 10px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+}
+
+.newCardWriteBox {
+  width: 47%;
+  display: flex;
+  flex-flow: column;
+
+}
+
+.newCardFooter {
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.newCardWriteArea {
+  width: 100%;
+  resize: none;
+  border: none;
+  border: 1px solid #a8cd9f;
+  border-radius: 10px;
+  outline: #a8cd9f solid 2px;
+  font-family: inherit;
+  font-size: 20px;
+  box-sizing: border-box;
+  padding: 5px;
+  margin-bottom: 5px;
+}

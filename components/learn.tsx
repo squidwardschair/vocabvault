@@ -2,7 +2,7 @@ import MultipleChoice from "./multiplechoice";
 import LearnWrite from "./learnwrite";
 import { ClientCard } from "../types/index";
 import { Card, Set } from '@prisma/client'
-import { useState, useEffect, useRef, RefObject } from "react";
+import { useState, useEffect } from "react";
 import LearnProgress from "./learnprogress";
 import styles from "../styles/write.module.css";
 import LearnRecap from "./learnrecap";
