@@ -13,3 +13,10 @@ export type ClientCard = {
 export type questionProps = {
   cardData: ClientCard[];
 };
+
+export type newCardProps = {
+  question: string;
+  answer: string;
+  questionLanguage: string;
+  answerLanguage: string;
+}
