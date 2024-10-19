@@ -33,6 +33,7 @@ type DisplayProps = {
   refs: LegacyRef<WriteRefs>;
   enterStatus: boolean | null;
   setInput(text: string): void;
+  answerLanguage: string;
   isFinished: boolean;
 };
 
@@ -51,6 +52,7 @@ const DisplayWrite = ({
   fullscreenEnter,
   enterStatus,
   setInput,
+  answerLanguage,
   refs,
 }: DisplayProps) => {
   if (onWrite) {
@@ -64,6 +66,7 @@ const DisplayWrite = ({
         text={text}
         handleEnter={(e) => handleEnter(e)}
         setInput={(text) => setInput(text)}
+        answerLanguage={answerLanguage}
       />
     );
   } else {
@@ -251,6 +254,7 @@ const LearnWrite = ({
         enterStatus={enterStatus}
         isFinished={finishedState}
         setInput={setInput}
+        answerLanguage={activeCards[currentCard].answerLanguage}
         refs={writePageRefs}
       />
     </div>

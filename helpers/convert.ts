@@ -1,6 +1,5 @@
 import { Card, Set } from '@prisma/client'
 import { ClientCard } from "../types/index";
-import { convertCompilerOptionsFromJson } from 'typescript';
 
 type Convert = {
     cards: Card[]

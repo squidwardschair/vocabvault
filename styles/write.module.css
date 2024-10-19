@@ -121,6 +121,10 @@
   box-shadow: 0 6px 0 coral;
 }
 
+.memAnswer {
+  box-shadow: 0 6px 0 lightseagreen;
+}
+
 .answerInput:focus {
   outline: none;
   box-shadow: 0 6px 0 #a8cd9f;
@@ -520,26 +524,21 @@
 }
 
 .progressOne {
-  background-color: lightslategray;
-  transition: 0.5s;
-}
-
-.progressTwo {
   background-color: darkred;
   transition: 0.5s;
 }
 
-.progressThree {
+.progressTwo {
   background-color: darkgoldenrod;
   transition: 0.5s;
 }
 
-.progressFour {
+.progressThree {
   background-color: lightgreen;
   transition: 0.5s;
 }
 
-.progressFive {
+.progressFour {
   background-color: darkgreen;
   transition: 0.5s;
 }
@@ -604,7 +603,7 @@
   width: 100%;
   display: flex;
   flex-flow: row;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 .createBold {
@@ -773,4 +772,81 @@
 
 .createCardHolder {
   width: 100%;
+}
+
+.errorBold {
+  font-family: inherit;
+  font-size: 20px;
+  color: darkred;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subheaderText {
+  color: white;
+  font-family: inherit;
+  margin-left: 10px;
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.memButtonBox {
+  margin-left: 10px;
+  display: flex;
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.memButton {
+  width: 30%;
+  margin-right: 5px;
+  border-radius: 5px;
+  height: 40px;
+  border: none;
+}
+
+.memButton:hover {
+  cursor: pointer;
+}
+.memButtonGreen {
+  background: darkgreen;
+}
+.memButtonGreen:hover {
+  background: green;
+}
+.memButtonYellow {
+  background: darkgoldenrod;
+}
+.memButtonYellow:hover {
+  background: #bfb32c;
+}
+
+.memButtonRed {
+  background: darkred;
+}
+
+.memButtonRed:hover {
+  background: #bf3424;
+
+}
+
+.languageSelect {
+  margin-left: auto;
+  font-family: inherit;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #a8cd9f;
+}
+
+.languageSelect:focus {
+  outline: none;
+}
+
+.newCardSettings {
+  display: flex;
+  margin-bottom: 3px;
 }

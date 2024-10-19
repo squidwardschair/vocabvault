@@ -1,9 +1,9 @@
 import MultipleChoice from "./multiplechoice";
 import LearnWrite from "./learnwrite";
 import { ClientCard } from "../types/index";
-import { Card, Set } from '@prisma/client'
 import { useState, useEffect } from "react";
 import LearnProgress from "./learnprogress";
+import Memory from "./learnmemory";
 import styles from "../styles/write.module.css";
 import LearnRecap from "./learnrecap";
 import LearnFinal from "./learnfinalrecap";
@@ -11,7 +11,7 @@ import LearnFinal from "./learnfinalrecap";
 type dispatchProps = {
   card: ClientCard;
   doneStatus(status: boolean | null): void;
-  cardCorrect(correct: boolean | null): void;
+  cardCorrect(correct: boolean | null | number): void;
   isRecap: boolean | null;
   setRecap(recap: boolean | null): void;
   cardIndex: number;
@@ -57,6 +57,8 @@ const DispatchLearn = ({
         key={card.id}
       />
     );
+  } else if (card.learnStatus == 2) {
+    return (<Memory card={card} learnStateFunc={doneStatus} learnCorrectFunc={cardCorrect} key={card.id}></Memory>)
   } else {
     return (
       <MultipleChoice
@@ -73,7 +75,7 @@ const Learn = ({ cards }: { cards: ClientCard[] }) => {
   const [learnCards, setLearnClientCards] = useState<ClientCard[]>(cards);
   const [filteredClientCards, setFilteredClientCards] = useState<ClientCard[][]>([]);
   const [isRecap, setRecap] = useState<boolean | null>(false);
-  const [curClientCardCorrect, cardCorrect] = useState<boolean | null>(null);
+  const [curClientCardCorrect, cardCorrect] = useState<boolean | null | number>(null);
   const [dispatchDone, doneStatus] = useState<boolean | null>(null);
   const [curPool, setCurPool] = useState<ClientCard[]>(learnCards.slice(0, 9));
   const [curPoolIndex, setPoolIndex] = useState<number>(0);
@@ -85,46 +87,51 @@ const Learn = ({ cards }: { cards: ClientCard[] }) => {
       return;
     }
     let curClientCard = curPool[curPoolIndex];
-    if (curClientCardCorrect) {
-      if (curClientCard.learnStatus == 0 || curClientCard.learnStatus == 1) {
-        curClientCard.learnStatus = 4;
-        curClientCard.learnRecaps[2] += 1;
-      } else if (curClientCard.learnStatus == 2) {
-        curClientCard.learnStatus = 1;
+    if (typeof curClientCardCorrect == "number") {
+      if (curClientCardCorrect === 0) {
+        curClientCard.learnStatus=1
+        curClientCard.learnRecaps[0] += 1;
+      } else if (curClientCardCorrect==1) {
+        curClientCard.learnStatus=2
         curClientCard.learnRecaps[1] += 1;
-      } else if (
-        curClientCard.learnStatus == 3 ||
-        curClientCard.learnStatus == 4 ||
-        curClientCard.learnStatus == 5
-      ) {
+      } else {
+        curClientCard.learnStatus=4
         curClientCard.learnRecaps[2] += 1;
-        curClientCard.learnStatus += 1;
-      } else if (curClientCard.learnStatus == 6) {
-        curClientCard.learnStatus = 6;
       }
     } else {
-      if (
-        curClientCard.learnStatus == 0 ||
-        curClientCard.learnStatus == 2 ||
-        curClientCard.learnStatus == 3
-      ) {
-        curClientCard.learnRecaps[0] += 1;
-        curClientCard.learnStatus = 1;
-      } else if (curClientCard.learnStatus == 1) {
-        curClientCard.learnRecaps[0] += 1;
-        curClientCard.learnStatus = 2;
-      } else if (
-        curClientCard.learnStatus == 4 ||
-        curClientCard.learnStatus == 5 ||
-        curClientCard.learnStatus == 6
-      ) {
-        curClientCard.learnRecaps[1] += 1;
-        curClientCard.learnStatus -= 1;
+      if (curClientCardCorrect) {
+        if (curClientCard.learnStatus == 0 || curClientCard.learnStatus == 1) {
+          curClientCard.learnStatus = 2;
+          curClientCard.learnRecaps[2] += 1;
+        } else if (
+          curClientCard.learnStatus == 3 ||
+          curClientCard.learnStatus == 4
+        ) {
+          curClientCard.learnRecaps[2] += 1;
+          curClientCard.learnStatus += 1;
+        }
+      } else {
+        if (
+          curClientCard.learnStatus == 0 ||
+          curClientCard.learnStatus == 1
+        ) {
+          curClientCard.learnRecaps[0] += 1;
+          curClientCard.learnStatus = 1;
+        } else if (curClientCard.learnStatus == 3) {
+          curClientCard.learnRecaps[0] += 1;
+          curClientCard.learnStatus = 2;
+        } else if (
+          curClientCard.learnStatus == 4
+        ) {
+          curClientCard.learnRecaps[1] += 1;
+          curClientCard.learnStatus -= 1;
+        }
       }
     }
+
     if (curPoolIndex == maxIndex) {
       let notMastered = learnCards.filter((card) => {
-        return card.learnStatus < 6;
+        return card.learnStatus < 5;
       });
       if (notMastered.length == 0) {
         setFinished(true);
@@ -148,7 +155,6 @@ const Learn = ({ cards }: { cards: ClientCard[] }) => {
       let randomClientCards = [
         filteredClientCards[0],
         filteredClientCards[2],
-        filteredClientCards[3],
       ].flat();
       shuffle(randomClientCards);
       let orderPriority = [filteredClientCards[1], randomClientCards].flat();
@@ -169,15 +175,12 @@ const Learn = ({ cards }: { cards: ClientCard[] }) => {
       return card.learnStatus == 0;
     });
     let priorityClientCards = learnCards.filter((card) => {
-      return card.learnStatus == 1 || card.learnStatus == 2;
+      return card.learnStatus == 1
     });
     let finalLearnClientCards = learnCards.filter((card) => {
-      return card.learnStatus == 3 || card.learnStatus == 4;
+      return card.learnStatus == 4 || card.learnStatus == 3 || card.learnStatus == 2;
     });
-    let masteredClientCards = learnCards.filter((card) => {
-      return card.learnStatus == 5;
-    });
-    setFilteredClientCards([newClientCards, priorityClientCards, finalLearnClientCards, masteredClientCards]);
+    setFilteredClientCards([newClientCards, priorityClientCards, finalLearnClientCards]);
   };
 
   return (

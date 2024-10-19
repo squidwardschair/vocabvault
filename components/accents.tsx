@@ -3,6 +3,7 @@ import styles from "../styles/write.module.css";
 type roundProps = {
   letter: string|undefined;
   pressed(): void;
+  language: string
 };
 
 const accents: {[key: string]: string} = {
@@ -16,10 +17,9 @@ const accents: {[key: string]: string} = {
     "N": "Ñ",
     "o": "ó",
     "O": "Ó",
-
 }
 
-const AccentBox = ({ letter, pressed }: roundProps) => {
+const AccentBox = ({ letter, pressed, language }: roundProps) => {
   const allAccents: {[key: string]: string} = { ...accents, ...Object.entries(accents).reduce((acc: {[key: string]: string}, [key, value]) => (acc[value] = key, acc), {})}
   if (letter==undefined||(!Object.keys(accents).includes(letter)&&!Object.values(accents).includes(letter))) {
     return (

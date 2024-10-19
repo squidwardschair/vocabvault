@@ -5,7 +5,7 @@ type learnProgressProps = {
     cards: ClientCard[]
 }
 
-const learnStyles = ["", styles.progressOne, styles.progressTwo, styles.progressThree, styles.progressThree, styles.progressFour, styles.progressFive]
+const learnStyles = ["", styles.progressOne, styles.progressTwo, styles.progressThree, styles.progressThree, styles.progressFour]
 const LearnProgress = ({ cards }: learnProgressProps) => {
     return (
         <div className={styles.learnProgressHolder}>

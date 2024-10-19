@@ -39,6 +39,7 @@ type DisplayProps = {
   roundPercents: string[];
   onIndvContinue(index: number): void;
   setInput(text: string): void;
+  answerLanguage: string;
   isFinished: boolean;
 };
 
@@ -62,6 +63,7 @@ const DisplayWrite = ({
   onIndvContinue,
   setInput,
   isFinished,
+  answerLanguage,
   refs,
 }: DisplayProps) => {
   if (onWrite === null) {
@@ -102,6 +104,7 @@ const DisplayWrite = ({
         text={text}
         handleEnter={(e) => handleEnter(e)}
         setInput={(text) => setInput(text)}
+        answerLanguage={answerLanguage}
       />
     );
   } else {
@@ -335,6 +338,7 @@ const Write = ({ cardData }: writeProps) => {
           onIndvContinue={onIndvContinue}
           isFinished={finishedState}
           setInput={setInput}
+          answerLanguage={activeCards[currentCard].answerLanguage}
           refs={writePageRefs}
         />
       </div>

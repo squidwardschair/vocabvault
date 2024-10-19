@@ -10,6 +10,15 @@ type props = {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  if (typeof(params?.id)==="string") {
+    if (/^-?\d+$/.test(params.id) == false) {
+      return {
+        props: {
+          parsedCards: []
+        }
+      }
+    }
+  }
     const cards = await prisma.card.findMany({
       where: {
         setId: Number(params?.id),

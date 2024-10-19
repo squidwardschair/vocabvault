@@ -14,7 +14,6 @@ import {
 type Props = {
   term: string;
   onAnswer(): void;
-  onSkip(): void;
   onChange: FormEventHandler;
   text: string;
   handleEnter: KeyboardEventHandler;
@@ -42,7 +41,7 @@ const accents: {[key: string]: string} = {
 
 }
 
-const WritePage = forwardRef<WriteRefs, Props>((props, ref) => {
+const MemoryWrite = forwardRef<WriteRefs, Props>((props, ref) => {
   const inputRef = useRef<HTMLDivElement>(null);
   const answerButtonRef = useRef<HTMLButtonElement>(null);
   const answerButtonTextRef = useRef<HTMLSpanElement>(null);
@@ -99,10 +98,8 @@ const WritePage = forwardRef<WriteRefs, Props>((props, ref) => {
     <div className={styles.writingArea}>
       <div className={styles.termHeader}>
         <span className={styles.termText}>{props.term}</span>
-        <span className={styles.skip} onClick={props.onSkip}>
-          Skip
-        </span>
       </div>
+      <span className={styles.subheaderText}>{"Write all your thoughts (bullet points, fragments, etc.) on what you think the definition is"}</span>
       <div className={styles.answerArea}>
         <div
           className={styles.answerInput}
@@ -131,4 +128,4 @@ const WritePage = forwardRef<WriteRefs, Props>((props, ref) => {
   );
 });
 
-export default WritePage;
+export default MemoryWrite;

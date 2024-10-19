@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import "../styles/global.css";
 import { Inter } from "next/font/google";
 import type { AppProps } from 'next/app'

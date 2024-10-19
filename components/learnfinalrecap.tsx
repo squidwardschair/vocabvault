@@ -14,16 +14,16 @@ const RecapHolder = ({ card }: { card: ClientCard }) => {
       </div>
       <div className={styles.recapAnswer}>
         <div className={styles.learnRecapBar}>
-          <div className={`${styles.learnProgressCard} ${styles.progressTwo}`}>
+          <div className={`${styles.learnProgressCard} ${styles.progressOne}`}>
             {card.learnRecaps[0]}
           </div>
           <div
-            className={`${styles.learnProgressCard} ${styles.progressThree}`}
+            className={`${styles.learnProgressCard} ${styles.progressTwo}`}
           >
             {card.learnRecaps[1]}
           </div>
           <div
-            className={`${styles.learnProgressCard} ${styles.progressFive} ${styles.lastProgress}`}
+            className={`${styles.learnProgressCard} ${styles.progressFour} ${styles.lastProgress}`}
           >
             {card.learnRecaps[2]}
           </div>

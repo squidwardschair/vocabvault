@@ -5,7 +5,7 @@ import CreateCard from "./createCards"
 type createCardListProps = {
     cards: newCardProps[]
     deleteCard(index:number): void;
-    editCard(index:number, isQuestion: boolean, change: string): void
+    editCard(index:number, isQuestion: number, change: string): void
 }
 
 const CreateCardList = ({ cards, deleteCard, editCard }: createCardListProps) => {
