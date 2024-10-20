@@ -1,5 +1,5 @@
 .fullPage {
-  height: 100%;
+  height: calc(100vh - 72px);
   width: 100%;
   display: flex;
   align-items: center;
@@ -17,13 +17,14 @@
 }
 
 .progressArea {
+  flex-flow: column;
   display: flex;
   max-width: 20%;
   min-width: 20%;
   flex-grow: 0;
   min-height: 100%;
   padding: 20px;
-  background-color: #496989;
+  background-color: #3d5a65;
   align-items: flex-start;
 }
 
@@ -33,7 +34,7 @@
   max-width: 75%;
   min-width: 75%;
   flex-grow: 0;
-  background-color: #496989;
+  background-color: #3d5a65;
   padding-top: 25px;
   padding-left: 25px;
   padding-right: 25px;
@@ -91,7 +92,7 @@
   box-sizing: border-box;
   font-size: 20px;
   border: none;
-  box-shadow: 0 3px 0 #e2f4c5;
+  box-shadow: 0 3px 0 #fcf3b7;
   background: transparent;
   color: white;
   transition: 0.1s;
@@ -127,7 +128,7 @@
 
 .answerInput:focus {
   outline: none;
-  box-shadow: 0 6px 0 #a8cd9f;
+  box-shadow: 0 6px 0 #fcf3b7;
 }
 .answerInput::placeholder {
   color: white;
@@ -143,7 +144,7 @@
 
 .answerButton {
   width: 75%;
-  background: #58a399;
+  background: #d5a150;
   border-radius: 5px;
   height: 50px;
   border: none;
@@ -155,7 +156,7 @@
   animation-duration: 0.5s;
 }
 @keyframes answerAnimation {
-  from {background: #58a399;}
+  from {background: #d5a150 ;}
   to {background: green;}
 }
 .continueButtonBox {
@@ -168,7 +169,7 @@
 
 .continueButton {
   width: 20%;
-  background: #58a399;
+  background: #d5a150;
   border-radius: 5px;
   height: 40px;
   border: none;
@@ -189,10 +190,10 @@
 }
 
 .overrideButton:hover > span {
-  color: #a8cd9f;
+  color: #fcf3b7;
 }
 .continueButton:hover {
-  background-color: #a8cd9f;
+  background-color: #af8645;
   cursor: pointer;
 }
 
@@ -209,11 +210,11 @@
   margin: auto;
   margin-right: 3%;
   font-size: 17px;
-  color: #a8cd9f;
+  color: #fcf3b7;
 }
 
 .skip:hover {
-  color: #e2f4c5;
+  color: #d5a150;
   cursor: pointer;
 }
 
@@ -352,7 +353,7 @@
 .mcAnswerChoice {
   width: 48%;
   min-height: 45px;
-  border: 2px solid #58a399;
+  border: 2px solid #d5a150;
   margin-bottom: 15px;
   margin-right: auto;
   display: flex;
@@ -365,7 +366,7 @@
 }
 
 .mcAnswerChoice:hover {
-  border: 2px solid #e2f4c5;
+  border: 2px solid #fcf3b7;
   cursor: pointer;
 }
 .mcAnswerBox {
@@ -444,7 +445,7 @@
 }
 
 .mcContinueButton {
-  background: #58a399;
+  background: #d5a150;
   border-radius: 10px;
   height: 35px;
   border: none;
@@ -459,7 +460,7 @@
 }
 
 .mcContinueButton:hover {
-  background-color: #a8cd9f;
+  background-color: #af8645;
   cursor: pointer;
   animation: inherit;
 
@@ -498,7 +499,7 @@
   height: 20px;
   border-radius: 10px;
   display: flex;
-  border: 3px solid #a8cd9f;
+  border: 3px solid #3d5a65;
   margin-top: 25px;
   overflow: hidden;
 }
@@ -508,12 +509,12 @@
   height: 20px;
   border-radius: 10px;
   display: flex;
-  border: 3px solid #a8cd9f;
+  border: 3px solid #3d5a65 ;
   overflow: hidden;
 }
 .learnProgressCard {
   flex-grow: 1;
-  border-right: 3px solid #a8cd9f;
+  border-right: 3px solid #3d5a65;
   text-align: center;
   font-family: inherit;
   color: white
@@ -586,11 +587,12 @@
 .createBox {
   padding-top: 10px;
   width: 100%;
+  min-height: calc(100vh - 92px);
   display: flex;
   flex-flow: column;
   align-items: center;
-  margin-top: 50px;
   background-color: lightgray;
+  padding-bottom: 10px;
 }
 
 .topCreateBox {
@@ -849,4 +851,234 @@
 .newCardSettings {
   display: flex;
   margin-bottom: 3px;
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #913330;
+}
+
+.navbarCreate {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white;
+  background-color: #d5a150;
+  padding: 5px;
+  border: 1px solid #d5a150;
+  border-radius: 10px;
+  margin-left: 5px;
+}
+
+.logoHolder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbarRight {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+
+.navbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.logoText {
+  color: white;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1.5rem;
+  
+}
+
+.navbarCreate:hover {
+  background-color: #3d5a65;
+  border-color: #3d5a65;
+  cursor: pointer;
+}
+
+.setHome {
+  display: flex;
+  flex-flow: column;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.homeHeader {
+  margin-top: 25px;
+  display: flex;
+  flex-flow: column
+}
+
+.titleText {
+  color: black;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.descText {
+  margin-top: 5px;
+  font-size: 1rem;
+  color: black;
+  font-size: 1rem;
+}
+
+.homeButtons {
+  display: flex;
+  width: 40%;
+  margin-top: 10px;
+}
+
+
+.homeButtonText {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  width: 30%;
+  background-color: #3d5a65;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #3d5a65;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.homeButtonText:hover {
+  cursor: pointer;
+  background-color: #d5a150;
+  border-color: #d5a150;
+}
+
+.homeCardHolder {
+  margin-top: 10px;
+  
+}
+
+.homeCard {
+  width: 50%;
+  border: 1px solid #fcf3b7;
+  background-color: #fcf3b7;
+  display: flex;
+  padding: 5px;
+}
+
+.homeCardTermHolder {
+  width: 50%;
+  display: flex;
+  flex-flow: column;
+}
+
+.homeCardTermLabel {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.homeCardTerm {
+  font-size: 1.1rem;
+}
+
+.homePage {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.homePgHeader {
+  height: calc(100vh - (72px));
+  align-items: center;
+  display: flex;
+  width: 60%;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.homeTitle {
+  font-weight: bold;
+  font-size: 4rem;
+  margin-bottom: 5px;
+}
+
+.homeDesc {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.homeCreate {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #3d5a65;
+  color: white;
+  padding: 10px;
+  border: 1px solid #3d5a65;
+  border-radius: 10px;
+}
+
+.homeCreate:hover {
+  border-color: #d5a150;
+  background-color: #d5a150;
+}
+
+.homeSets {
+  margin-top: 10px;
+  display: flex;
+  width: 80%;
+  flex-flow: column;
+}
+
+.homeSetTitle{
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+
+.homeSetHolder {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.homeSet {
+  width: 30%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: #fcf3b7;
+  border: 1px solid #fcf3b7;
+  padding: 10px;
+  border-radius: 7px;
+}
+
+.homeSetName {
+  font-weight: bold;
+  font-size: 1.25rem;
+  text-align: center;
+  overflow-wrap: break-word;
+  width: 100%;
+}
+
+.homeSetDesc {
+  text-align: center;
+  overflow-wrap: break-word;
+  width: 100%;
+
+}
+
+.homeSet:hover {
+  cursor: pointer;
+}
+
+.backSet {
+  font-size: 1rem;
 }

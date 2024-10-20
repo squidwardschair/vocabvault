@@ -21,7 +21,7 @@ const FlashcardHolder = ({ cardData }: questionProps) => {
   };
 
   const previousCard = () => {
-    const previousIndex = (currentCard + 1) % cardData.length;
+    const previousIndex = currentCard==0 ? currentCard : (currentCard - 1);
     setCard(previousIndex);
     if (!side) {
       flip_card();
@@ -53,6 +53,10 @@ const FlashcardHolder = ({ cardData }: questionProps) => {
             <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
           </svg>
         </button>
+        <span className={styles.flashProgress}>{currentCard+1}</span>
+        <span className={styles.flashSlash}>/</span>
+        <span className={styles.flashProgress}>{cardData.length}</span>
+
         <button className={styles.flashcardButton} onClick={nextCard}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

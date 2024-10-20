@@ -1,9 +1,13 @@
-import SetHome from "../../../components/sethome";
+import FlashcardHolder from "../../../components/flashcardholder";
 import { GetServerSideProps } from "next";
 import { Card, Set } from '@prisma/client'
 import ConvertCards from "../../../helpers/convert";
 import prisma from '../../../lib/prisma'
 import { notFound } from 'next/navigation'
+
+type props = {
+    cards: Card[];
+}
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   if (typeof(params?.id)==="string") {
@@ -20,27 +24,20 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         setId: Number(params?.id),
       },
     });
-
-    const set = await prisma.set.findFirst({
-      where: {
-        id: Number(params?.id)
-      }
-    })
     const parsedCards = JSON.parse(JSON.stringify(cards))
-    const parsedSets = JSON.parse(JSON.stringify(set))
     return {
-      props: {parsedCards, parsedSets},
+      props: {parsedCards},
     };
   };
   
 
-function App({ parsedCards, parsedSets }: {parsedCards: Card[], parsedSets: Set}) {
+function App({ parsedCards }: {parsedCards: Card[]}) {
   if (parsedCards.length==0) {
     notFound()
   }
   console.log(parsedCards)
   let newCards = ConvertCards(parsedCards)
-  return <SetHome name={parsedSets.name} desc={parsedSets.description} cardData={newCards} />;
+  return <FlashcardHolder cardData={newCards} />;
 }
 
 export default App;

@@ -13,6 +13,8 @@ import {
 } from "react";
 import styles from "../styles/write.module.css";
 import { ClientCard } from "../types/index";
+import Router from "next/router";
+import { usePathname } from "next/navigation";
 
 export type writeProps = {
   cardData: ClientCard[];
@@ -136,6 +138,7 @@ const Write = ({ cardData }: writeProps) => {
   const [finishedState, setFinishedState] = useState<boolean>(false);
   const writePageRefs = useRef<WriteRefs>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const path = usePathname()
 
   useEffect(() => {
     if (answerAnimation && correct != null) {
@@ -299,7 +302,8 @@ const Write = ({ cardData }: writeProps) => {
       }
     }
     if (!newCards.length) {
-      return (<div>placeholder for finish</div>)
+      Router.push(path.substring(0, path.length-5))
+      return
     }
     setActiveCards(newCards);
     setTotal(newCards.length);

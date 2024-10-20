@@ -1,5 +1,4 @@
 import styles from "../styles/write.module.css";
-
 type Props = {
   total: number;
   remaining: number;

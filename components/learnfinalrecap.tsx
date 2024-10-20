@@ -1,6 +1,8 @@
+import { usePathname } from "next/navigation";
 import styles from "../styles/write.module.css";
 import { ClientCard } from "../types/index";
 import { useEffect } from "react";
+import Router from "next/router";
 
 type learnRecapProps = {
   cards: ClientCard[];
@@ -34,6 +36,10 @@ const RecapHolder = ({ card }: { card: ClientCard }) => {
 };
 
 const LearnFinal = ({ cards }: learnRecapProps) => {
+  const path = usePathname()
+  const onClick = () => {
+    Router.push(path.substring(0, path.length-5))
+  }
   return (
     <div className={`${styles.learnModeHeight} ${styles.writeHolder}`}>
       <div className={styles.writingArea}>
@@ -49,7 +55,7 @@ const LearnFinal = ({ cards }: learnRecapProps) => {
         </div>
         <div className={styles.continueButtonBox}>
           <button className={styles.continueButton}>
-            <span className={styles.buttonText}>Finish</span>
+            <span className={styles.buttonText} onClick={onClick}>Finish</span>
           </button>
         </div>
       </div>

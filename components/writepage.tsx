@@ -97,6 +97,7 @@ const WritePage = forwardRef<WriteRefs, Props>((props, ref) => {
   }, []);
   return (
     <div className={styles.writingArea}>
+      
       <div className={styles.termHeader}>
         <span className={styles.termText}>{props.term}</span>
         <span className={styles.skip} onClick={props.onSkip}>
