@@ -181,7 +181,7 @@ const LearnWrite = ({
       input
         .toLowerCase()
         .replace(/(<br ?\/?>)|(&nbsp;)|(^[ \t]+)|(\s+$)/g, "") ==
-      activeCards[currentCard].answer
+      activeCards[currentCard].question
         .toLowerCase()
         .replace(/(<br ?\/?>)|(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")
     ) {
