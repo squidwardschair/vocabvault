@@ -1082,3 +1082,17 @@
 .backSet {
   font-size: 1rem;
 }
+
+.notFoundPage {
+  height: calc(100vh - 72px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notFoundText {
+  color: black;
+  font-size: 1.2rem;
+  font-weight: bold;
+}

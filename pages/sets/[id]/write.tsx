@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { Card, Set } from '@prisma/client'
 import ConvertCards from "../../../helpers/convert";
 import prisma from '../../../lib/prisma'
-import { notFound } from 'next/navigation'
+import NotFound from "../../../components/notfound";
 import Write from "../../../components/write";
 
 type props = {
@@ -25,8 +25,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 const WriteMode = ({ parsedCards }: {parsedCards: Card[]}) => {
   if (parsedCards.length==0) {
-    notFound()
-  }
+    return (
+      <NotFound></NotFound>
+    )  }
   console.log(parsedCards)
   let newCards = ConvertCards(parsedCards)
   return <Write cardData={newCards} />;

@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { Card, Set } from '@prisma/client'
 import ConvertCards from "../../../helpers/convert";
 import prisma from '../../../lib/prisma'
-import { notFound } from 'next/navigation'
+import NotFound from "../../../components/notfound";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   if (typeof(params?.id)==="string") {
@@ -36,7 +36,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
 function App({ parsedCards, parsedSets }: {parsedCards: Card[], parsedSets: Set}) {
   if (parsedCards.length==0) {
-    notFound()
+    return (
+      <NotFound></NotFound>
+    )
   }
   console.log(parsedCards)
   let newCards = ConvertCards(parsedCards)
