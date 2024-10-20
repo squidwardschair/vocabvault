@@ -1,5 +1,6 @@
 import Home from "../components/home";
 import { GetServerSideProps } from "next";
+import prisma from '../lib/prisma'
 import { Set } from "@prisma/client";
 
 const shuffle = (array: Set[]) => {
