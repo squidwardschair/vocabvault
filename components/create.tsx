@@ -74,7 +74,6 @@ const Create = () => {
       cards.filter((c) => /\S/.test(c.question) && /\S/.test(c.question))
         .length == cards.length
     ) {
-      alert("yoooooo");
       try {
         const setBody = {
           name: titleRef?.current?.value,
