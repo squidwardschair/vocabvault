@@ -27,3 +27,7 @@ div#__next > div {
   pointer-events: none;
   display: block; /* For Firefox */
 }
+
+a {
+  text-decoration: none;
+}
