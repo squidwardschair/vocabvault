@@ -238,9 +238,9 @@ const LearnWrite = ({
     <div className={`${styles.learnModeHeight} ${styles.writeHolder}`}>
       <DisplayWrite
         onWrite={correct}
-        question={activeCards[currentCard].question}
+        question={activeCards[currentCard].answer}
         onAnswer={onAnswer}
-        answer={activeCards[currentCard].answer}
+        answer={activeCards[currentCard].question}
         useranswer={input
           .replace(/<br ?\/?>/g, "\n")
           .replace(/(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")}

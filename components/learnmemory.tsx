@@ -106,9 +106,9 @@ const Memory = ({
     <div className={`${styles.learnModeHeight} ${styles.writeHolder}`}>
       <DisplayWrite
         onWrite={correct}
-        question={card.question}
+        question={card.answer}
         onAnswer={onAnswer}
-        answer={card.answer}
+        answer={card.question}
         useranswer={input
           .replace(/<br ?\/?>/g, "\n")
           .replace(/(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")}

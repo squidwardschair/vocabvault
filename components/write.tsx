@@ -324,9 +324,9 @@ const Write = ({ cardData }: writeProps) => {
         />
         <DisplayWrite
           onWrite={correct}
-          question={activeCards[currentCard].question}
+          question={activeCards[currentCard].answer}
           onAnswer={onAnswer}
-          answer={activeCards[currentCard].answer}
+          answer={activeCards[currentCard].question}
           useranswer={input.replace(/<br ?\/?>/g, "\n").replace(/(&nbsp;)|(^[ \t]+)|(\s+$)/g, "")}
           onSkip={onSkip}
           onOverride={onOverride}
