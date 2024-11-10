@@ -608,6 +608,12 @@
   margin-bottom: 5px;
 }
 
+.turnstileHolder {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
+
 .createBold {
   font-family: inherit;
   font-size: 30px;
@@ -630,12 +636,19 @@
   color: white;
   font-family: inherit;
   font-weight: bold;
+  font-size: 1.1em;
 }
 
 .createButton:hover {
   background-color: #d5a150;
   border-color: #d5a150;
   cursor: pointer;
+}
+
+.createButton:disabled {
+  background-color: gray;
+  border-color: gray;
+  cursor: default;
 }
 
 .topBoxFooter {
@@ -698,10 +711,12 @@
 }
 
 .createCard {
-  padding-top: 5px;
+  padding: 10px;
   background-color: white;
   margin-top: 10px;
-  width: 100%;
+  width: calc(100% - 22px);
+  border: 1px solid white;
+  border-radius: 10px;
 }
 
 .newCardHeader {
@@ -981,6 +996,7 @@
 
 .homeCardTerm {
   font-size: 1.1rem;
+  word-wrap: break-word;
 }
 
 .homePage {
@@ -1002,6 +1018,7 @@
   font-weight: bold;
   font-size: 4rem;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .homeDesc {
@@ -1095,4 +1112,33 @@
   color: black;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.createLoader {
+  color: white;
+  width: fit-content;
+  font-weight: bold;
+  font-family: inherit;
+  font-size: 1.1em;
+  padding-bottom: 8px;
+  background: linear-gradient(currentColor 0 0) 0 100%/0% 3px no-repeat;
+  animation: l2 2s linear infinite;
+}
+.createLoader:before {
+  content:"Loading..."
+}
+
+.noDisplay {
+  display: none;
+}
+
+@keyframes l2 {to{background-size: 100% 3px}}
+@media only screen and (max-width: 768px) {
+  .homeButtons {
+    width: 80%;
+  }
+
+  .homeCard {
+    width: 80%;
+  }
 }

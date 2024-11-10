@@ -4,56 +4,71 @@ import TextareaAutosize from "react-textarea-autosize";
 import { useState, useRef } from "react";
 import { newCardProps } from "../types/questions";
 import Router from "next/router";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 const Create = () => {
+  const [turnstileStatus, setTurnstileStatus] = useState<
+    "success" | "error" | "expired" | "required"
+  >("required");
+  const [turnstileToken, setToken] = useState<string>("")
   const [cards, editCards] = useState<newCardProps[]>([]);
   const [errorMsg, editErrorMsg] = useState<string>("");
+  const [createDisabled, editCreateDisabled] = useState<boolean>(false);
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const addCard = () => {
     editCards([
       ...cards,
-      { question: "", answer: "", questionLanguage: "EN", answerLanguage: "EN"},
+      {
+        question: "",
+        answer: "",
+        questionLanguage: "EN",
+        answerLanguage: "EN",
+      },
     ]);
   };
 
   const editCard = (index: number, isQuestion: number, change: string) => {
-    const nextCards = cards.map(card => {
-        if (cards.indexOf(card)==index-1) {
-            if (isQuestion==0) {
-                return {
-                    ...card,
-                    question: change
-                }
-            } else if (isQuestion==1) {
-                return {
-                    ...card,
-                    answer: change
-                }
-            } else if (isQuestion==2) {
-              return {
-                ...card,
-                questionLanguage: change
-              }
-            } else {
-              return {
-                ...card,
-                answerLanguage: change
-            } 
-          }
+    const nextCards = cards.map((card) => {
+      if (cards.indexOf(card) == index - 1) {
+        if (isQuestion == 0) {
+          return {
+            ...card,
+            question: change,
+          };
+        } else if (isQuestion == 1) {
+          return {
+            ...card,
+            answer: change,
+          };
+        } else if (isQuestion == 2) {
+          return {
+            ...card,
+            questionLanguage: change,
+          };
         } else {
-            return card
+          return {
+            ...card,
+            answerLanguage: change,
+          };
         }
-    })
-    editCards(nextCards)
-}
+      } else {
+        return card;
+      }
+    });
+    editCards(nextCards);
+  };
   const deleteCard = (index: number) => {
     editCards(cards.filter((_, i) => i !== index - 1));
   };
 
   const createSet = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (turnstileStatus !== "success") {
+      editErrorMsg("Please verify you are not a robot");
+      return;
+    }
     if (cards.length < 5) {
       editErrorMsg(
         "Error creating set - 5 cards or greater are needed to create a set"
@@ -74,12 +89,15 @@ const Create = () => {
       cards.filter((c) => /\S/.test(c.question) && /\S/.test(c.question))
         .length == cards.length
     ) {
+      editCreateDisabled(true);
       try {
         const setBody = {
           name: titleRef?.current?.value,
           description: descriptionRef?.current?.value,
           questionLanguage: "EN",
           answerLanguage: "EN",
+          cards: cards,
+          turnstileToken: turnstileToken,
         };
         const setPost = await fetch("/api/set/post", {
           method: "POST",
@@ -87,17 +105,16 @@ const Create = () => {
           body: JSON.stringify(setBody),
         });
         const setResponse = await setPost.json();
-        for (const c of cards) {
-          const newBody = { ...c, setId: setResponse.id };
-          await fetch("/api/card/post", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newBody),
-          });
+        if (setPost.ok) {
+          await Router.push(`/sets/${setResponse.id}`);
+        } else {
+          editErrorMsg(setResponse.message);
+          editCreateDisabled(false)
         }
-        await Router.push(`/sets/${setResponse.id}`);
       } catch (error) {
+        editErrorMsg("An unknown error occured");
         console.error(error);
+        editCreateDisabled(false)
       }
     } else {
       editErrorMsg("Error creating set - Card fields are empty");
@@ -109,9 +126,24 @@ const Create = () => {
       <div className={styles.topCreateBox}>
         <div className={styles.topBoxHeader}>
           <span className={styles.createBold}>Create a new flashcard set</span>
-          <div className={styles.createButton} onClick={(e) => createSet(e)}>
-            <span className={styles.createButtonText}>Create</span>
-          </div>
+          <button
+            className={styles.createButton}
+            onClick={(e) => createSet(e)}
+            disabled={createDisabled}
+          >
+            <div className={createDisabled ? styles.createLoader : styles.noDisplay}></div>
+            <span className={createDisabled ? styles.noDisplay : styles.createButtonText}>Create</span>
+          </button>
+        </div>
+        <div className={styles.turnstileHolder}>
+        <Turnstile
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+              onError={(token) => setTurnstileStatus("error")}
+              onExpire={() => setTurnstileStatus("expired")}
+              onSuccess={(token) => {
+                setTurnstileStatus("success"); ; setToken(token)
+              }}
+            />
         </div>
         <span className={styles.errorBold}>{errorMsg}</span>
         <TextareaAutosize

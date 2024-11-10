@@ -8,7 +8,7 @@ export const VocabVaultLogo = () => {
     y="0px"
     width="72"
     viewBox="0 0 886 886"
-    enable-background="new 0 0 886 886"
+    enableBackground="new 0 0 886 886"
     xmlSpace="preserve"
     height="72"
   >

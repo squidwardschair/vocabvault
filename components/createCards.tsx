@@ -57,7 +57,7 @@ const CreateCard = ({
           ></TextareaAutosize>
           <div className={styles.newCardSettings}>
             <span className={styles.newCardFooter}>Term</span>
-            <select className={styles.languageSelect} onChange={termLangChange}>
+            <select className={styles.languageSelect} onChange={termLangChange} tabIndex={-1}>
               <option value="EN">EN</option>
               <option value="ES">ES</option>
               <option value="FR">FR</option>
@@ -74,7 +74,7 @@ const CreateCard = ({
           ></TextareaAutosize>
           <div className={styles.newCardSettings}>
             <span className={styles.newCardFooter}>Definition</span>
-            <select className={styles.languageSelect} onChange={answerLangChange}>
+            <select className={styles.languageSelect} onChange={answerLangChange} tabIndex={-1}>
               <option value="EN">EN</option>
               <option value="ES">ES</option>
               <option value="FR">FR</option>

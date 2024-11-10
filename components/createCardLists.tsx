@@ -12,7 +12,7 @@ const CreateCardList = ({ cards, deleteCard, editCard }: createCardListProps) =>
     return (
         <div className={styles.createCardHolder}>
             {cards.map((card, index) => (
-                <CreateCard card={card} cardIndex={index} deleteCard={deleteCard} editCard={editCard}/>
+                <CreateCard card={card} cardIndex={index} deleteCard={deleteCard} editCard={editCard} key={index}/>
             ))}
         </div>
     )

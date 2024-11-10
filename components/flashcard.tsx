@@ -18,9 +18,16 @@ const Flashcard = ({ question, answer, active, side, onClick }: Props) => {
         }
         onClick={onClick}
       >
-        <div className={styles.cardBody}>{question}</div>
+        <div className={styles.cardBody}>
+        <span className={styles.cardText}>
+            {question}
+          </span>
+        </div>
         <div className={`${styles.cardBody} ${styles.cardFlipBody}`}>
-          {answer}
+          <span className={styles.cardText}>
+            {answer}
+
+          </span>
         </div>
       </div>
     </div>
