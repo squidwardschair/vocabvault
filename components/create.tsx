@@ -5,6 +5,8 @@ import { useState, useRef } from "react";
 import { newCardProps } from "../types/questions";
 import Router from "next/router";
 import { Turnstile } from "@marsidev/react-turnstile";
+import ImportSet from "./createImportModal";
+import { ChangeEvent } from "react";
 
 const Create = () => {
   const [turnstileStatus, setTurnstileStatus] = useState<
@@ -14,8 +16,15 @@ const Create = () => {
   const [cards, editCards] = useState<newCardProps[]>([]);
   const [errorMsg, editErrorMsg] = useState<string>("");
   const [createDisabled, editCreateDisabled] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [importNotif, setImportNotif] = useState<boolean>(false);
+  const [importMatch, setImport] = useState<string[]>([])
+  const [defaultTermLang, setDefaultTermLang] = useState<string>("EN")
+  const [defaultDefLang, setDefaultDefLang] = useState<string>("EN")
+
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null)
 
   const addCard = () => {
     editCards([
@@ -23,8 +32,8 @@ const Create = () => {
       {
         question: "",
         answer: "",
-        questionLanguage: "EN",
-        answerLanguage: "EN",
+        questionLanguage: defaultTermLang,
+        answerLanguage:defaultDefLang,
       },
     ]);
   };
@@ -63,6 +72,20 @@ const Create = () => {
     editCards(cards.filter((_, i) => i !== index - 1));
   };
 
+  const termLangSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setDefaultTermLang(e.currentTarget.value)
+    for (let i=0; i<cards.length; i++) {
+      editCard(i, 2, e.currentTarget.value)
+    }
+  }
+
+
+  const defLangSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setDefaultDefLang(e.currentTarget.value)
+    for (let i=0; i<cards.length; i++) {
+      editCard(i, 3, e.currentTarget.value)
+    }
+  }
   const createSet = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (turnstileStatus !== "success") {
@@ -122,7 +145,8 @@ const Create = () => {
   };
 
   return (
-    <div className={styles.createBox}>
+    <>
+    <div className={styles.createBox} ref={boxRef}>
       <div className={styles.topCreateBox}>
         <div className={styles.topBoxHeader}>
           <span className={styles.createBold}>Create a new flashcard set</span>
@@ -162,17 +186,45 @@ const Create = () => {
           <button className={styles.bottomButtons} onClick={() => addCard()}>
             <span className={styles.createButtonText}>Add card</span>
           </button>
-          <button className={styles.bottomButtons}>
+          <button className={styles.bottomButtons} onClick={() => setShowModal(true)}>
             <span className={styles.createButtonText}>Import</span>
           </button>
+          <span className={`${styles.errorBold} ${styles.importLang} ${importNotif ? styles.visible : ''}`}>Import feature does not detect language - please set language manually</span>
+        </div>
+        <div className={styles.topBoxFooter}>
+          <div id={styles.defaultTermLang}>
+          <span className={`${styles.createButtonText} ${styles.defaultLangText}`}>Default term language: </span>
+          <select className={styles.languageSelect} tabIndex={-1} onChange={termLangSelect}>
+              <option value="EN">EN</option>
+              <option value="ES">ES</option>
+              <option value="FR">FR</option>
+              <option value="DE">DE</option>
+          </select>
+          </div>
+          <div>
+          <span className={`${styles.createButtonText} ${styles.defaultLangText}`}>Default definition language: </span>
+          <select className={styles.languageSelect} tabIndex={-1} onChange={defLangSelect}>
+              <option value="EN">EN</option>
+              <option value="ES">ES</option>
+              <option value="FR">FR</option>
+              <option value="DE">DE</option>
+          </select>
+          </div>
         </div>
         <CreateCardList
           cards={cards}
           deleteCard={deleteCard}
           editCard={editCard}
+          defaultDefLang={defaultDefLang}
+          defaultTermLang={defaultTermLang}
         />
       </div>
     </div>
+    {showModal &&
+            <ImportSet onClose={() => setShowModal(false)} createBox={boxRef?.current} editCards={editCards} cards={cards} setImportNotif={setImportNotif}>
+            </ImportSet>
+    }
+    </>
   );
 };
 

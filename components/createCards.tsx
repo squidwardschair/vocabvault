@@ -7,12 +7,16 @@ import { ChangeEvent } from "react";
 type createCardProps = {
   card: newCardProps;
   cardIndex: number;
+  defaultTermLang: string;
+  defaultDefLang: string;
   deleteCard(index: number): void;
   editCard(index: number, isQuestion: number, change: string): void;
 };
 const CreateCard = ({
   card,
   cardIndex,
+  defaultTermLang,
+  defaultDefLang,
   deleteCard,
   editCard,
 }: createCardProps) => {
@@ -58,10 +62,10 @@ const CreateCard = ({
           <div className={styles.newCardSettings}>
             <span className={styles.newCardFooter}>Term</span>
             <select className={styles.languageSelect} onChange={termLangChange} tabIndex={-1}>
-              <option value="EN">EN</option>
-              <option value="ES">ES</option>
-              <option value="FR">FR</option>
-              <option value="DE">DE</option>
+              <option value="EN" selected={defaultTermLang=="EN" ? true : undefined}>EN</option>
+              <option value="ES" selected={defaultTermLang=="ES" ? true : undefined}>ES</option>
+              <option value="FR" selected={defaultTermLang=="FR" ? true : undefined}>FR</option>
+              <option value="DE" selected={defaultTermLang=="DE" ? true : undefined}>DE</option>
             </select>
           </div>
         </div>
@@ -75,10 +79,10 @@ const CreateCard = ({
           <div className={styles.newCardSettings}>
             <span className={styles.newCardFooter}>Definition</span>
             <select className={styles.languageSelect} onChange={answerLangChange} tabIndex={-1}>
-              <option value="EN">EN</option>
-              <option value="ES">ES</option>
-              <option value="FR">FR</option>
-              <option value="DE">DE</option>
+              <option value="EN" selected={defaultDefLang=="EN" ? true : undefined}>EN</option>
+              <option value="ES" selected={defaultDefLang=="ES" ? true : undefined}>ES</option>
+              <option value="FR" selected={defaultDefLang=="FR" ? true : undefined}>FR</option>
+              <option value="DE" selected={defaultDefLang=="DE" ? true : undefined}>DE</option>
             </select>
           </div>        
           </div>
