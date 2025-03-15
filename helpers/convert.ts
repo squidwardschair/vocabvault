@@ -18,7 +18,7 @@ const ConvertCards = (cards: Card[]) => {
         newCard.id = card.id
         newCard.learnRecaps = [0, 0, 0]
         newCard.questionLanguage = card.questionLanguage
-        newCard.questionLanguage = card.answerLanguage
+        newCard.answerLanguage = card.answerLanguage
         converted.push(newCard)
     }
     return converted

@@ -74,18 +74,23 @@ const Create = () => {
 
   const termLangSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setDefaultTermLang(e.currentTarget.value)
-    for (let i=0; i<cards.length; i++) {
-      editCard(i, 2, e.currentTarget.value)
+    let editedCards = cards
+    for (let i=0; i<editedCards.length; i++) {
+      editedCards[i].questionLanguage = e.currentTarget.value
     }
+    editCards(editedCards)
   }
 
 
   const defLangSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     setDefaultDefLang(e.currentTarget.value)
+    let editedCards=cards
     for (let i=0; i<cards.length; i++) {
-      editCard(i, 3, e.currentTarget.value)
+      editedCards[i].answerLanguage = e.currentTarget.value
     }
+    editCards(editedCards)
   }
+  
   const createSet = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (turnstileStatus !== "success") {

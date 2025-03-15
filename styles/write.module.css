@@ -1094,7 +1094,7 @@
 
 .homeCardHolder {
   margin-top: 10px;
-  
+  margin-bottom: 10px;
 }
 
 .homeCard {
@@ -1254,6 +1254,10 @@
   display: none;
 }
 
+.frenchEaccents {
+  display: flex;
+  flex-flow: row;
+}
 @keyframes l2 {to{background-size: 100% 3px}}
 
 @media only screen and (max-width: 768px) {

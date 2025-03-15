@@ -11,11 +11,12 @@ type createCardListProps = {
 }
 
 const CreateCardList = ({ cards, defaultTermLang, defaultDefLang, deleteCard, editCard }: createCardListProps) => {
+    let cardComponent =cards.map((card, index) => (
+        <CreateCard card={card} cardIndex={index} deleteCard={deleteCard} editCard={editCard} key={index} defaultDefLang={defaultDefLang} defaultTermLang={defaultTermLang}/>
+    ))
     return (
         <div className={styles.createCardHolder}>
-            {cards.map((card, index) => (
-                <CreateCard card={card} cardIndex={index} deleteCard={deleteCard} editCard={editCard} key={index} defaultDefLang={defaultDefLang} defaultTermLang={defaultTermLang}/>
-            ))}
+            {cardComponent.reverse()}
         </div>
     )
 }
