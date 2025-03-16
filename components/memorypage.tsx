@@ -18,7 +18,7 @@ type Props = {
   text: string;
   handleEnter: KeyboardEventHandler;
   setInput(text: string): void;
-  answerLanguage: string;
+  questionLanguage: string;
 };
 
 export type WriteRefs = {
@@ -27,7 +27,7 @@ export type WriteRefs = {
   answerButtonTextRef: RefObject<HTMLSpanElement> | null;
 };
 
-const accents: {[key: string]: string} = {
+const spanishAccents: {[key: string]: string} = {
   "a": "á",
   "A": "Á",
   "e": "é",
@@ -40,6 +40,49 @@ const accents: {[key: string]: string} = {
   "O": "Ó",
 
 }
+const frenchAccents: { [key: string]: string } = {
+  a: "à",
+  A: "À",
+  î: "i",
+  Î: "I",
+  ï: "i",
+  Ï: "I",
+  o: "ô",
+  O: "Ô",
+  c: "ç",
+  C: "Ç",
+  é: "e",
+  è: "e",
+  ê: "e",
+  ë: "e",
+  É: "E",
+  È: "E",
+  Ê: "E",
+  Ë: "E",
+  Ù: "U",
+  Ü: "U",
+  Û: "U",
+  ù: "u",
+  ü: "u",
+  û: "u",
+};
+
+const germanAccents: { [key: string]: string } = {
+  "a": "ä",
+  "A": "Ä",
+  "o": "ö",
+  "O": "Ö",
+  "u": "ü",
+  "U": "Ü",
+  "s": "ß"
+};
+
+const lowerEs = ["é", "è", "ê", "ë"];
+const capitalEs = ["É", "È", "Ê", "Ë"];
+const capitalUs = ["Ù", "Ü", "Û"];
+const lowerUs = ["ù", "ü", "û"];
+const lowerIs = ["î", "ï"]
+const capitalIs = ["Ï", "Î"]
 
 const MemoryWrite = forwardRef<WriteRefs, Props>((props, ref) => {
   const inputRef = useRef<HTMLDivElement>(null);
@@ -51,17 +94,55 @@ const MemoryWrite = forwardRef<WriteRefs, Props>((props, ref) => {
     answerButtonRef: answerButtonRef,
     answerButtonTextRef: answerButtonTextRef,
   }));
+  const frenchEpressed = (accentNum : number) => {
+    if (!inputRef?.current?.innerHTML) {
+      return
+    }
+    let letter = inputRef?.current?.innerHTML.slice(-1).toLowerCase()
+    let capital = (inputRef?.current?.innerHTML.slice(-1)=="E" || inputRef?.current?.innerHTML.slice(-1)=="U" || inputRef?.current?.innerHTML.slice(-1)=="I") ? true : false
+    let newAccent
+    if (letter=="e") {
+      newAccent = capital ? capitalEs[accentNum] : lowerEs [accentNum]
+    } else if (letter=="u") {
+      newAccent = capital ? capitalUs[accentNum] : lowerUs [accentNum]
+    } else {
+      newAccent = capital ? capitalIs[accentNum] : lowerIs [accentNum]
+    }
+    inputRef.current.innerHTML = inputRef.current.innerHTML.slice(0, -1) + newAccent
+    props.setInput(inputRef?.current?.innerHTML.slice(0, -1) + newAccent)
+    inputRef.current.focus();
+    window.getSelection()?.selectAllChildren(inputRef.current)
+    window.getSelection()?.collapseToEnd()
+  }
+
   const pressed = () => {
     if (!inputRef?.current?.innerHTML) {
       return
     }
-    const flippedAccents = Object.entries(accents).reduce((acc: {[key: string]: string}, [key, value]) => (acc[value] = key, acc), {})
-    let newAccent = accents[inputRef?.current?.innerHTML.slice(-1)]
-    if (!newAccent) {
-      newAccent = flippedAccents[inputRef?.current?.innerHTML.slice(-1)]
+    let accents
+    if (props.questionLanguage=="ES") {
+      accents = spanishAccents
+    } else if (props.questionLanguage=="FR") {
+      accents=frenchAccents
+    } else if (props.questionLanguage=="GE") {
+      accents=germanAccents
     }
-    inputRef.current.innerHTML = inputRef.current.innerHTML.slice(0, -1) + newAccent
-    props.setInput(inputRef?.current?.innerHTML.slice(0, -1) + newAccent)
+    if (accents) {
+      if (lowerEs.includes(inputRef?.current?.innerHTML.slice(-1).toLowerCase()) || lowerUs.includes(inputRef?.current?.innerHTML.slice(-1).toLowerCase()) || lowerIs.includes(inputRef?.current?.innerHTML.slice(-1).toLowerCase())) {
+        let newAccent = accents[inputRef?.current?.innerHTML.slice(-1)]
+        inputRef.current.innerHTML = inputRef.current.innerHTML.slice(0, -1) + newAccent
+        props.setInput(inputRef?.current?.innerHTML.slice(0, -1) + newAccent)
+      } else {
+        const flippedAccents = Object.entries(accents).reduce((acc: {[key: string]: string}, [key, value]) => (acc[value] = key, acc), {})
+        let newAccent = accents[inputRef?.current?.innerHTML.slice(-1)]
+        if (!newAccent) {
+          newAccent = flippedAccents[inputRef?.current?.innerHTML.slice(-1)]
+        }
+        inputRef.current.innerHTML = inputRef.current.innerHTML.slice(0, -1) + newAccent
+        props.setInput(inputRef?.current?.innerHTML.slice(0, -1) + newAccent)
+      }
+    }
+
     inputRef.current.focus();
     window.getSelection()?.selectAllChildren(inputRef.current)
     window.getSelection()?.collapseToEnd()
@@ -123,7 +204,7 @@ const MemoryWrite = forwardRef<WriteRefs, Props>((props, ref) => {
           </button>
         </div>
       </div>
-      <AccentBox letter={inputRef?.current?.innerHTML.slice(-1)} pressed={() => pressed()} language={props.answerLanguage}/>
+      <AccentBox letter={inputRef?.current?.innerHTML.slice(-1)} pressed={() => pressed()} frenchEPressed={frenchEpressed} language={props.questionLanguage}/>
     </div>
   );
 });
