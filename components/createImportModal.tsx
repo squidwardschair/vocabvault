@@ -67,9 +67,7 @@ const ImportSet = ({ onClose, editCards, setImportNotif, createBox, cards }: imp
         editCards([...cards, ...formatMatches]);
         setImportNotif(true)
         onClose();
-        alert("hahaja");
       } else {
-        alert("booo");
         setErrorMsg(true);
         errorText?.current?.classList.add(styles.visible);
       }
