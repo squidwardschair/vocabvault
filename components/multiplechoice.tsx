@@ -78,6 +78,7 @@ const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrec
   const [labelB, setlabelB] = useState<boolean|null>(null)
   const [labelC, setlabelC] = useState<boolean|null>(null)
   const [labelD, setlabelD] = useState<boolean|null>(null)
+  const [disabled, buttonDisabled] = useState<boolean>(true)
 
   const labelStateFunctions: (Dispatch<SetStateAction<boolean | null>>)[] = [
     setlabelA,
@@ -137,6 +138,7 @@ const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrec
       learnCorrectFunc(false)
     }
     triggerAnswer(true)
+    buttonDisabled(false)
     continueBoxRef?.current?.classList?.add(styles.mcContinueDisplay)
   };
 
@@ -149,6 +151,7 @@ const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrec
     }
     continueBoxRef?.current?.classList?.remove(styles.mcContinueDisplay)
     triggerAnswer(false)
+    buttonDisabled(true)
     for (const icon of labelStateFunctions) {
       icon(null)
     }
@@ -249,7 +252,7 @@ const MultipleChoice = ({ card, cardIndex, cardData, learnStateFunc, learnCorrec
               <span className={styles.keyContinueText}>
                 Press Enter to continue
               </span>
-              <button className={styles.mcContinueButton} onClick={() => onContinue()}>Continue</button>
+              <button className={styles.mcContinueButton} onClick={() => onContinue()} disabled={disabled}>Continue</button>
             </div>
           </div>
         </div>

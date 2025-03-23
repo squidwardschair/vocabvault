@@ -16,7 +16,16 @@ const ImportSet = ({ onClose, editCards, setImportNotif, createBox, cards }: imp
   const errorText = useRef<HTMLSpanElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [errorMsg, setErrorMsg] = useState<boolean>(false);
-
+  const ytVid = (window.screen.width>768 ? <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/p9R5xMdn3h4?si=8w_2bv6hSpn6K5xu"
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerPolicy="strict-origin-when-cross-origin"
+    allowFullScreen
+  ></iframe> : <a className={styles.importYtButton} href="https://www.youtube.com/watch?v=p9R5xMdn3h4" target="_blank">Youtube Tutorial Link</a>)
   useEffect(() => {
     if (errorMsg) {
       console.log("yeah");
@@ -77,16 +86,7 @@ const ImportSet = ({ onClose, editCards, setImportNotif, createBox, cards }: imp
         </div>
         <div className={styles.createImportBody}>
           <div className={styles.createImportVideo}>
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/p9R5xMdn3h4?si=8w_2bv6hSpn6K5xu"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
+            {ytVid}
             <span className={styles.createImportInst}>
               Follow the video tutorial above, or the text instructions below.
               <br></br>

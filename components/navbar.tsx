@@ -23,6 +23,9 @@ const Navbar = () => {
         ) : (
           ""
         )}
+        <a href="/allsets" className={styles.navbarCreate}>
+          All Sets
+        </a>
         <a href="/create" className={styles.navbarCreate}>
           Create Set
         </a>

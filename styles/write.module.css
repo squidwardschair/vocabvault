@@ -551,10 +551,6 @@
   width: 100%;
 }
 
-.learnModeHeight {
-  min-height: 40vh;
-}
-
 .writeLearnHolder {
   display: flex;
   justify-content: center;
@@ -663,7 +659,7 @@
 
 .createImportButton {
   display: block;
-  width: 115px;
+  width: 200px;
   height: 40px;
   background-color: #d5a150;
   color: white;
@@ -785,6 +781,7 @@
   background-color: #3d5a65;
   margin-right: 10px;
   height: 40px;
+  min-width: 100px;
 }
 
 .bottomButtons:hover {
@@ -1258,18 +1255,285 @@
   display: flex;
   flex-flow: row;
 }
+
 @keyframes l2 {to{background-size: 100% 3px}}
+
+.visible {
+  visibility: visible;
+}
+
+.filterSets {
+  box-shadow: none;
+  width: 250px;
+  height: 25px;
+  border-radius: 5px;
+  margin-left: 1.25%;
+  margin-bottom: 5px;
+  border: 2px solid white;
+  outline-color: white;
+}
+
+.importYtButton {
+  font-size: 1.25em;
+}
 
 @media only screen and (max-width: 768px) {
   .homeButtons {
     width: 80%;
   }
 
+  .homeTitle {
+    font-size: 3rem;
+    margin-top: 10px;
+  }
+
+  .homePgHeader {
+    width: 80%;
+  }
+
   .homeCard {
     width: 80%;
   }
+
+  .homeSets {
+    width: 90%;
+  }
+
+  .homeSet {
+    width: 25%;
+  }
+  
+  .topCreateBox {
+    width: 90%;
+  }
+  
+  .writingArea {
+    max-width: 80%;
+    min-width: 80%;
+  }
+
+  .progressArea {
+    max-width: 25%;
+    min-width: 25%;
+  }
+
+  .buttonText {
+    font-size: 15px;
+  }
+
+  .writeHolder {
+    min-width: 95%;
+    max-width: 95%;
+  }
+
+  .learnProgressHolder {
+    width: 80%;
+  }
+
+  .keyContinueText {
+    display: none;
+  }
+  
+  .mcContinueButton {
+    margin-left: 0px;
+  }
+
+  .createImportBody {
+    flex-flow: column;
+  }
+
+  .createImportText {
+    margin-top: 5px;
+    padding: 0px;
+  }
 }
 
-.visible {
-  visibility: visible;
+@media only screen and (max-width: 480px) {
+  .answerInput[contenteditable="true"] {
+    font-size: 15px;
+    min-height: 25px;
+  }
+
+  .homeButtons {
+    width: 80%;
+  }
+
+  .homeCard {
+    width: 100%;
+  }
+
+  .logoText {
+    display: none;
+  }
+
+  .homeTitle {
+    font-size: 2.5em;
+    margin-top: 10px;
+  }
+
+  .homePgHeader {
+    width: 80%;
+  }
+
+  .homeSets {
+    width: 90%;
+  }
+
+  .homeSet {
+    width: 80%;
+  }
+
+  .filterSets{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .titleText {
+    font-size: 2em;
+  }
+
+  .homeButtonText {
+    font-size: 1em;
+  }
+
+  .navbarCreate {
+    font-size: 1rem;
+  }
+  
+  .writeHolder {
+    flex-flow: column;
+  }
+
+  .progressArea {
+    max-width: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    padding: 10px;
+    height: 17vh;
+  }
+
+  .barText {
+    font-size: 15px;
+  }
+
+  .termText {
+    font-size: 25px;
+  }
+  .progressBarArea {
+    height: 25px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
+
+  .writingArea {
+    max-width: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+  }
+
+  .termHeader {
+    margin-bottom: 20px;
+  }
+
+  .buttonText {
+    font-size: 12px;
+  }
+
+  .answerButton {
+    height: 35px;
+  }
+
+  .skip {
+    font-size: 12px;
+  }
+  
+  .learnProgressHolder {
+    width: 95%;
+    border-width: 1.5px;
+    flex-wrap: wrap;
+    height: fit-content;
+    border: none;
+    justify-content: space-evenly;
+    border-radius: 0px;
+  }
+  
+  .mcChoiceLabel {
+    margin-left: 2px;
+  }
+
+  .learnProgressCard {
+    border-radius: 5px;
+    flex: 0 1 10%;
+    border-right-width: 1.5px;
+    height: 15px;
+    border: 2px solid #3d5a65;
+  }
+
+  .mcAnswerBox {
+    margin-top: 10px;
+  }
+
+  .answerChoiceText {
+    margin-left: 2px;
+    text-wrap: wrap;
+    overflow-wrap: anywhere;
+    font-size: 15px;
+  }
+
+  .keyContinueText {
+    display: none;
+  }
+  
+  .mcContinueBox {
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+
+  .mcContinueButton {
+    margin-left: 0px;
+  }
+
+  .subheaderText {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .mcAnswerChoice {
+    width: 100%;
+  }
+  
+  .createButton {
+    height: 50px;
+  }
+
+  .createBold {
+    font-size: 25px;
+  }
+  .topBoxHeader {
+    align-items: center;
+  }
+
+  .errorBold {
+    font-size: 15px;
+  }
+
+  .createImportBody {
+    flex-flow: column;
+  }
+
+  .createImportText {
+    margin-top: 5px;
+    padding: 0px;
+  }
+
+  .newCardWriting {
+    flex-flow: column;
+  }
+
+  .newCardWriteBox {
+    width: 100%;
+  }
 }
+

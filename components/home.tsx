@@ -1,6 +1,4 @@
 import styles from "../styles/write.module.css";
-import { ClientCard, questionProps } from "../types/index";
-import { usePathname } from 'next/navigation'
 import {Set} from "@prisma/client"
 import { VocabVaultLogoB } from "./vocabvaultlogoB";
 import { useState, useEffect } from "react";
@@ -40,7 +38,7 @@ const Home = ({ sets }: setData) => {
             <VocabVaultLogoB></VocabVaultLogoB>
         </div>
         <div className={styles.homeSets}>
-            <span className={styles.homeSetTitle}>Explore Sets</span>
+            <span className={styles.homeSetTitle}>Explore Top Sets</span>
             <div className={styles.homeSetHolder}>
                 {sets.map((s, index) => (<HomeSets set={s} />))}
             </div>
