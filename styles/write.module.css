@@ -1402,14 +1402,18 @@
   }
   
   .writeHolder {
-    flex-flow: column;
+    flex-flow: column-reverse;
   }
 
   .progressArea {
     max-width: calc(100% - 20px);
     min-width: calc(100% - 20px);
     padding: 10px;
-    height: 17vh;
+    height: 15vh;
+  }
+
+  .answerButtonBox {
+    width: 25%;
   }
 
   .barText {
