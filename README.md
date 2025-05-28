@@ -1,5 +1,6 @@
 # VocabVault
 ### A better way to learn vocab
+### Website is live at https://vocabvault.app
 
 For years, flashcard learning apps have been ripping students off by charging for basic features like Laern Mode, shoving AI companions down our throats, and riddling their websites with ads and account requirements. Students are looking for a website that helps them learn vocab with nothing more and nothing less. VocabVault does just that.
 
